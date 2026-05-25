@@ -1,26 +1,194 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: hsl(30, 15%, 8%);
+  --foreground: hsl(38, 25%, 92%);
+  --crimson: hsl(0, 68%, 40%);
+  --muted-foreground: hsl(38, 10%, 60%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --border: hsl(0, 0%, 22%);
+
+  --font-display: var(--font-playfair), 'Playfair Display', serif;
+  --font-script: var(--font-dancing), 'Dancing Script', cursive;
+  --font-body: var(--font-dm-sans), 'DM Sans', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-crimson: var(--crimson);
+  --color-muted: var(--muted-foreground);
+  --font-sans: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Liquid Glass Effect ── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ── Animations ── */
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
+.animate-fade-rise {
+  animation: fade-rise 1s ease-out both;
+}
+
+.animate-fade-rise-d1 {
+  animation: fade-rise 1s ease-out 0.2s both;
+}
+
+.animate-fade-rise-d2 {
+  animation: fade-rise 1s ease-out 0.4s both;
+}
+
+.animate-fade-rise-d3 {
+  animation: fade-rise 1s ease-out 0.6s both;
+}
+
+.float-card {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* ── Section 1 Vignette ── */
+.baroque-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.baroque-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Section 2 ── */
+.crimson-section {
+  background: var(--crimson);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+/* ── Scholars painting overlay container ── */
+.scholars-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 3rem auto 0;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.scholars-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .baroque-hero .hero-h1 {
+    font-size: 2rem !important;
+    max-width: 90% !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    text-align: left !important;
+  }
+
+  .baroque-hero .body-text {
+    display: none;
+  }
+
+  .baroque-hero .data-card {
+    display: none;
+  }
+
+  .crimson-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .scholars-container {
+    max-width: 90%;
+  }
 }

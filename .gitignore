@@ -19,10 +19,15 @@ plan.md
 
 # production
 /build
-
+backend\.env
 # misc
 .DS_Store
 *.pem
+
+venv/
+__pycache__/
+*.pyc
+.env
 
 # debug
 npm-debug.log*

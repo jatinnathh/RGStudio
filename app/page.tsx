@@ -495,14 +495,10 @@ function ScrollVideoHero() {
           }}
         >
           <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.82)", lineHeight: 1.75, fontWeight: 300, marginBottom: "1rem", textShadow: "0 1px 10px rgba(0,0,0,0.5)" }}>
-            Our SaaS product takes over all exhausting operational activities,
-            complex analytics, and tedious process management. While algorithms
-            seamlessly build your success infrastructure and generate stable
-            profit, you get time for truly important things.
+            Our studio absorbs every tedious step between imagination and output — style research, reference hunting, parameter tuning, iteration loops. While RAG and GAN work in tandem to build your visual output, you stay in the only role that matters: the one with the idea.
           </p>
           <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.82)", lineHeight: 1.75, fontWeight: 300, textShadow: "0 1px 10px rgba(0,0,0,0.5)" }}>
-            Delegate micromanagement to artificial intelligence and reliable
-            cloud solutions to enjoy absolute peace of mind.
+            Hand the technical labor to the pipeline. Describe once, generate endlessly, and keep your creative energy for the work only you can do.
           </p>
         </div>
 

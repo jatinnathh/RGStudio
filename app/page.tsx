@@ -516,10 +516,10 @@ function ScrollVideoHero() {
             willChange: "opacity, transform",
           }}
         >
-          Intelligent Daily<br />
-          Routine Automation<br />
+          Describe a Style<br />
+          Watch It Exist <br />
           For Your Business.<br />
-          You Relax
+          Art Made From Language
         </h1>
 
         {/* Scroll hint */}

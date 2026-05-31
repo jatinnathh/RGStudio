@@ -19,163 +19,236 @@ export default nextConfig;
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --mouse-x: 50%;
-  --mouse-y: 50%;
-  --accent-cyan: #00f0ff;
-  --accent-purple: #b829dd;
-  --accent-pink: #ff006e;
+  --background: hsl(30, 15%, 8%);
+  --foreground: hsl(38, 25%, 92%);
+  --crimson: hsl(0, 68%, 40%);
+  --muted-foreground: hsl(38, 10%, 60%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --border: hsl(0, 0%, 22%);
+
+  --font-display: var(--font-playfair), 'Playfair Display', serif;
+  --font-script: var(--font-dancing), 'Dancing Script', cursive;
+  --font-body: var(--font-dm-sans), 'DM Sans', sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-crimson: var(--crimson);
+  --color-muted: var(--muted-foreground);
+  --font-sans: var(--font-body);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
+  background: var(--background);
+  color: var(--foreground);
   scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+  font-family: var(--font-body);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* 3D System */
-.perspective-2000 {
-  perspective: 2000px;
-}
-.perspective-1500 {
-  perspective: 1500px;
-}
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-/* Spotlight that follows mouse */
-.spotlight {
-  background: radial-gradient(
-    800px circle at var(--mouse-x) var(--mouse-y),
-    rgba(0, 240, 255, 0.08),
-    transparent 40%
-  );
-}
-
-/* Film grain texture */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #000;
-}
-::-webkit-scrollbar-thumb {
-  background: #222;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #444;
-}
-
-/* Floating particles */
-@keyframes float-particle {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.6;
-  }
-  90% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(-120vh) translateX(30px);
-    opacity: 0;
-  }
-}
-.animate-float-particle {
-  animation: float-particle linear infinite;
-}
-
-/* Glow pulse for CTA */
-@keyframes glow-pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), 0 0 60px rgba(184, 41, 221, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(0, 240, 255, 0.4), 0 0 80px rgba(184, 41, 221, 0.2);
-  }
-}
-.animate-glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-/* Card glare effect */
-.card-glare {
+/* ── Liquid Glass Effect ── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    0 8px 32px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
 }
-.card-glare::before {
-  content: '';
+
+.liquid-glass::before {
+  content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    600px circle at var(--card-mouse-x, 50%) var(--card-mouse-y, 50%),
-    rgba(255, 255, 255, 0.08),
-    transparent 40%
-  );
-  opacity: 0;
-  transition: opacity 0.3s;
-  pointer-events: none;
-  z-index: 10;
   border-radius: inherit;
-}
-.card-glare:hover::before {
-  opacity: 1;
+  padding: 1px;
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.55) 0%,
+    rgba(255, 255, 255, 0.12) 25%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
-/* Pipeline connector line */
-.pipeline-connector {
-  background: linear-gradient(90deg, rgba(0,240,255,0.3), rgba(184,41,221,0.3), rgba(255,0,110,0.3));
-  height: 1px;
+/* ── Animations ── */
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.5deg);
+  }
+}
+
+.animate-fade-rise {
+  animation: fade-rise 1s ease-out both;
+}
+
+.animate-fade-rise-d1 {
+  animation: fade-rise 1s ease-out 0.2s both;
+}
+
+.animate-fade-rise-d2 {
+  animation: fade-rise 1s ease-out 0.4s both;
+}
+
+.animate-fade-rise-d3 {
+  animation: fade-rise 1s ease-out 0.6s both;
+}
+
+.float-card {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* ── Section 1 Vignette ── */
+.baroque-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.baroque-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Section 2 ── */
+.crimson-section {
+  background: var(--crimson);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem;
+}
+
+/* ── Scholars painting overlay container ── */
+.scholars-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 3rem auto 0;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.scholars-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .baroque-hero .hero-h1 {
+    font-size: 2rem !important;
+    max-width: 90% !important;
+    right: 1rem !important;
+    left: 1rem !important;
+    text-align: left !important;
+  }
+
+  .baroque-hero .body-text {
+    display: none;
+  }
+
+  .baroque-hero .data-card {
+    display: none;
+  }
+
+  .crimson-section {
+    padding: 4rem 1.5rem;
+  }
+
+  .scholars-container {
+    max-width: 90%;
+  }
 }
 
 ===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\app\layout.tsx =====
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, DM_Sans, Dancing_Script } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  style: ["normal", "italic"],
+  weight: ["400", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmSans = DM_Sans({
   subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+  weight: ["300", "400", "500"],
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  variable: "--font-dancing",
+  display: "swap",
+  weight: ["700"],
 });
 
 export const metadata: Metadata = {
-  title: "Create Next App",
-  description: "Generated by create next app",
+  title: "Art Studio — Intelligent Business Automation",
+  description:
+    "Effortless growth operations. Our SaaS platform takes over exhausting operational activities, complex analytics, and tedious process management so you can focus on what matters.",
+  keywords: [
+    "Business Automation",
+    "SaaS",
+    "AI Operations",
+    "Growth Platform",
+    "Art Studio",
+  ],
 };
 
 export default function RootLayout({
@@ -186,7 +259,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${playfairDisplay.variable} ${dmSans.variable} ${dancingScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
@@ -194,676 +267,2129 @@ export default function RootLayout({
 }
 
 ===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\app\page.tsx =====
-'use client'
+"use client";
 
-import { useEffect, useRef } from 'react'
-import Image from 'next/image'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect, useRef, useCallback } from "react";
 
-gsap.registerPlugin(ScrollTrigger)
+/* ─── SVG Monogram Logo ─── */
+function MonogramLogo({ size = 32 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M32 4C32 4 12 18 12 36C12 48 20 56 32 56C28 56 20 50 20 38C20 22 32 4 32 4Z"
+        fill="white"
+        opacity="0.9"
+      />
+      <path
+        d="M32 60C32 60 52 46 52 28C52 16 44 8 32 8C36 8 44 14 44 26C44 42 32 60 32 60Z"
+        fill="white"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
 
-export default function Home() {
-  const mainRef = useRef<<HTMLDivElement>(null)
+/* ─── Canvas pixel-sampler hook ─── */
+function usePixelSwatch(
+  swatchRef: React.RefObject<HTMLCanvasElement>,
+  paintingRef: React.RefObject<HTMLImageElement>,
+  gridCells: number = 4
+) {
+  const draw = useCallback(() => {
+    const canvas = swatchRef.current;
+    const img = paintingRef.current;
+    if (!canvas || !img || !img.complete || img.naturalWidth === 0) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const imgRect = img.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+
+    // Map canvas position to painting's natural pixel space
+    const scaleX = img.naturalWidth / imgRect.width;
+    const scaleY = img.naturalHeight / imgRect.height;
+
+    const srcX = (canvasRect.left - imgRect.left) * scaleX;
+    const srcY = (canvasRect.top - imgRect.top) * scaleY;
+    const srcW = canvasRect.width * scaleX;
+    const srcH = canvasRect.height * scaleY;
+
+    // Clamp source rectangle to image bounds
+    if (
+      srcX + srcW < 0 ||
+      srcY + srcH < 0 ||
+      srcX > img.naturalWidth ||
+      srcY > img.naturalHeight
+    )
+      return;
+
+    const size = gridCells;
+
+    // Draw downsampled to gridCells×gridCells
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, size, size);
+
+    // Read pixels
+    let imageData: ImageData;
+    try {
+      imageData = ctx.getImageData(0, 0, size, size);
+    } catch {
+      // crossOrigin not set or CORS blocked — fall back to a solid grey
+      ctx.fillStyle = "rgba(100,100,100,0.6)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      return;
+    }
+
+    // Clear and redraw as pixelated mosaic
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const cellW = canvas.width / size;
+    const cellH = canvas.height / size;
+
+    for (let row = 0; row < size; row++) {
+      for (let col = 0; col < size; col++) {
+        const i = (row * size + col) * 4;
+        const r = imageData.data[i];
+        const g = imageData.data[i + 1];
+        const b = imageData.data[i + 2];
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(
+          Math.floor(col * cellW),
+          Math.floor(row * cellH),
+          Math.ceil(cellW),
+          Math.ceil(cellH)
+        );
+      }
+    }
+
+    // Subtle grid lines
+    ctx.strokeStyle = "rgba(0,0,0,0.2)";
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= size; i++) {
+      ctx.beginPath();
+      ctx.moveTo(i * cellW, 0);
+      ctx.lineTo(i * cellW, canvas.height);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, i * cellH);
+      ctx.lineTo(canvas.width, i * cellH);
+      ctx.stroke();
+    }
+  }, [swatchRef, paintingRef, gridCells]);
 
   useEffect(() => {
-    // Mouse tracking for spotlight + card glare
-    const handleMouseMove = (e: MouseEvent) => {
-      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`)
-      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`)
+    // Draw immediately (image may already be loaded)
+    draw();
 
-      // Update card glare positions
-      const cards = document.querySelectorAll<<HTMLElement>('.card-glare')
-      cards.forEach((card) => {
-        const rect = card.getBoundingClientRect()
-        const x = e.clientX - rect.left
-        const y = e.clientY - rect.top
-        card.style.setProperty('--card-mouse-x', `${x}px`)
-        card.style.setProperty('--card-mouse-y', `${y}px`)
-      })
+    // Also draw once image finishes loading
+    const img = paintingRef.current;
+    if (img && !img.complete) {
+      img.addEventListener("load", draw);
     }
-    window.addEventListener('mousemove', handleMouseMove)
 
-    // GSAP Context for cleanup
-    const ctx = gsap.context(() => {
-      // ==========================================
-      // INTRO ANIMATION (Load sequence)
-      // ==========================================
-      const introTl = gsap.timeline({
-        defaults: { ease: 'power3.out' },
-      })
-
-      introTl
-        .from('.page-wrapper', {
-          scale: 0.65,
-          translateZ: 900,
-          opacity: 0,
-          duration: 2.2,
-          delay: 0.1,
-        })
-        .from(
-          '.hero-title-line',
-          {
-            y: 140,
-            rotateX: -55,
-            opacity: 0,
-            duration: 1.4,
-            stagger: 0.12,
-            transformOrigin: 'center bottom',
-          },
-          '-=1.6'
-        )
-        .from(
-          '.hero-tagline',
-          {
-            y: 40,
-            opacity: 0,
-            filter: 'blur(10px)',
-            duration: 1.2,
-          },
-          '-=1'
-        )
-        .from(
-          '.hero-cta',
-          {
-            scale: 0.85,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.1,
-          },
-          '-=0.8'
-        )
-        .from(
-          '.scroll-indicator',
-          {
-            opacity: 0,
-            y: -30,
-            duration: 0.8,
-          },
-          '-=0.4'
-        )
-
-      // ==========================================
-      // SCROLL ANIMATIONS
-      // ==========================================
-
-      // Hero parallax on scroll (elements separate in Z-space)
-      gsap.to('.hero-title-main', {
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-        translateZ: 400,
-        opacity: 0,
-        scale: 1.15,
-        ease: 'none',
-      })
-
-      gsap.to('.hero-title-sub', {
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-        translateZ: -300,
-        opacity: 0,
-        scale: 0.85,
-        ease: 'none',
-      })
-
-      gsap.to('.hero-tagline', {
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: '50% top',
-          scrub: 1,
-        },
-        y: -80,
-        opacity: 0,
-        ease: 'none',
-      })
-
-      // Background blobs parallax
-      gsap.to('.blob-1', {
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 2,
-        },
-        y: -200,
-        scale: 1.3,
-      })
-      gsap.to('.blob-2', {
-        scrollTrigger: {
-          trigger: '.hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 2,
-        },
-        y: -150,
-        x: 50,
-        scale: 1.2,
-      })
-
-      // ==========================================
-      // PIPELINE SECTION
-      // ==========================================
-      gsap.from('.pipeline-title', {
-        scrollTrigger: {
-          trigger: '.pipeline-section',
-          start: 'top 80%',
-          end: 'top 50%',
-          scrub: 1,
-        },
-        y: 60,
-        opacity: 0,
-        rotateX: 15,
-      })
-
-      gsap.from('.pipeline-card', {
-        scrollTrigger: {
-          trigger: '.pipeline-section',
-          start: 'top 70%',
-          end: 'center center',
-          scrub: 1,
-        },
-        rotateY: 70,
-        translateZ: -500,
-        opacity: 0,
-        stagger: 0.15,
-        ease: 'power2.out',
-      })
-
-      gsap.from('.pipeline-connector', {
-        scrollTrigger: {
-          trigger: '.pipeline-section',
-          start: 'top 60%',
-          end: 'center center',
-          scrub: 1,
-        },
-        scaleX: 0,
-        transformOrigin: 'left center',
-        opacity: 0,
-      })
-
-      // ==========================================
-      // TECH SECTION
-      // ==========================================
-      gsap.from('.tech-text', {
-        scrollTrigger: {
-          trigger: '.tech-section',
-          start: 'top 75%',
-          end: 'top 40%',
-          scrub: 1,
-        },
-        x: -80,
-        opacity: 0,
-      })
-
-      gsap.utils.toArray<<HTMLElement>('.feature-card').forEach((card, i) => {
-        const depths = [300, 500, 700]
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 1,
-          },
-          translateZ: -depths[i],
-          rotateX: 25,
-          opacity: 0,
-          delay: i * 0.05,
-        })
-      })
-
-      // ==========================================
-      // GALLERY SECTION
-      // ==========================================
-      gsap.from('.gallery-title', {
-        scrollTrigger: {
-          trigger: '.gallery-section',
-          start: 'top 80%',
-          end: 'top 55%',
-          scrub: 1,
-        },
-        y: 50,
-        opacity: 0,
-        scale: 0.95,
-      })
-
-      gsap.utils.toArray<<HTMLElement>('.gallery-item').forEach((item, i) => {
-        gsap.from(item, {
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 90%',
-            end: 'top 55%',
-            scrub: 1.5,
-          },
-          scale: 0.6,
-          translateZ: -1000,
-          rotateY: i % 2 === 0 ? -20 : 20,
-          rotateX: 10,
-          opacity: 0,
-          ease: 'power2.out',
-        })
-      })
-
-      // ==========================================
-      // CTA SECTION (Zoom in effect)
-      // ==========================================
-      gsap.from('.cta-container', {
-        scrollTrigger: {
-          trigger: '.cta-section',
-          start: 'top 80%',
-          end: 'top 30%',
-          scrub: 1,
-        },
-        scale: 0.85,
-        translateZ: -400,
-        opacity: 0.5,
-      })
-
-      gsap.to('.cta-bg-glow', {
-        scrollTrigger: {
-          trigger: '.cta-section',
-          start: 'top 80%',
-          end: 'bottom bottom',
-          scrub: 2,
-        },
-        scale: 1.5,
-        rotate: 45,
-      })
-    }, mainRef)
+    window.addEventListener("scroll", draw, { passive: true });
+    window.addEventListener("resize", draw);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      ctx.revert()
-    }
-  }, [])
+      img?.removeEventListener("load", draw);
+      window.removeEventListener("scroll", draw);
+      window.removeEventListener("resize", draw);
+    };
+  }, [draw, paintingRef]);
+
+  return draw;
+}
+
+/* ─── ML Detection Bounding Box with real canvas pixel swatch ─── */
+function DetectionBox({
+  value,
+  style,
+  animDelay = "0s",
+  size = "sm",
+  paintingRef,
+}: {
+  value: string;
+  style: React.CSSProperties;
+  animDelay?: string;
+  size?: "sm" | "md" | "lg";
+  paintingRef: React.RefObject<HTMLImageElement>;
+}) {
+  const swatchRef = useRef<HTMLCanvasElement>(null);
+  const swatchPx = size === "lg" ? 48 : size === "md" ? 40 : 40;
+  const fontSize = size === "lg" ? "13px" : size === "md" ? "12px" : "11px";
+  const cornerSize = size === "lg" ? 12 : 10;
+  const borderColor = "rgba(255,255,255,0.85)";
+
+  usePixelSwatch(swatchRef, paintingRef, 3);
+
+  const corners = [
+    { top: 0, left: 0, bt: true, bl: true },
+    { top: 0, right: 0, bt: true, br: true },
+    { bottom: 0, left: 0, bb: true, bl: true },
+    { bottom: 0, right: 0, bb: true, br: true },
+  ];
 
   return (
-    <div ref={mainRef} className="relative bg-black text-white overflow-x-hidden">
-      {/* Fixed overlays */}
-      <div className="fixed inset-0 pointer-events-none z-[100] spotlight mix-blend-screen" />
-      <div className="noise-overlay" />
+    <div
+      className="float-card"
+      style={{
+        position: "absolute",
+        zIndex: 10,
+        animationDelay: animDelay,
+        filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.5))",
+        ...style,
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          alignItems: "center",
+          padding: 3,
+        }}
+      >
+        {/* Corner brackets */}
+        {corners.map((cs, i) => (
+          <span
+            key={i}
+            style={{
+              position: "absolute",
+              width: cornerSize,
+              height: cornerSize,
+              top: cs.top,
+              left: cs.left,
+              right: (cs as { right?: number }).right,
+              bottom: (cs as { bottom?: number }).bottom,
+              borderTop: cs.bt ? `2px solid ${borderColor}` : undefined,
+              borderLeft: cs.bl ? `2px solid ${borderColor}` : undefined,
+              borderRight: (cs as { br?: boolean }).br
+                ? `2px solid ${borderColor}`
+                : undefined,
+              borderBottom: (cs as { bb?: boolean }).bb
+                ? `2px solid ${borderColor}`
+                : undefined,
+              borderTopLeftRadius: cs.bt && cs.bl ? 3 : 0,
+              borderTopRightRadius:
+                cs.bt && (cs as { br?: boolean }).br ? 3 : 0,
+              borderBottomLeftRadius:
+                (cs as { bb?: boolean }).bb && cs.bl ? 3 : 0,
+              borderBottomRightRadius:
+                (cs as { bb?: boolean }).bb && (cs as { br?: boolean }).br
+                  ? 3
+                  : 0,
+              zIndex: 2,
+            }}
+          />
+        ))}
 
-      {/* Background gradient blobs */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="blob-1 absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full bg-cyan-500/10 blur-[120px]" />
-        <div className="blob-2 absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] rounded-full bg-purple-600/10 blur-[120px]" />
+        {/* ── Real pixel-sampled canvas swatch ── */}
+        <canvas
+          ref={swatchRef}
+          width={swatchPx}
+          height={swatchPx}
+          style={{
+            width: swatchPx,
+            height: swatchPx,
+            borderRadius: 2,
+            flexShrink: 0,
+            imageRendering: "pixelated",
+            filter: "blur(1.5px)",
+            
+            boxShadow:
+              "inset 0 0 0 10px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.12)",
+          }}
+        />
+
+        {/* Value label */}
+        <span
+          style={{
+            fontFamily:
+              "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            fontSize,
+            color: "rgba(255,255,255,0.95)",
+            fontWeight: 500,
+            letterSpacing: "0.04em",
+            textShadow: "0 1px 3px rgba(0,0,0,0.6)",
+            padding: "2px 6px",
+            marginLeft: 2,
+            background: "rgba(0,0,0,0.30)",
+            backdropFilter: "blur(8px)",
+            WebkitBackdropFilter: "blur(8px)",
+            borderRadius: "0 3px 3px 0",
+          }}
+        >
+          {value}
+        </span>
       </div>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   HOME PAGE
+   ═══════════════════════════════════════════════════════ */
+export default function Home() {
+  const section2Ref = useRef<HTMLDivElement>(null);
+  const heroPaintingRef = useRef<HTMLImageElement>(null);
+  const scholarsPaintingRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const els = entry.target.querySelectorAll("[data-animate]");
+            els.forEach((el, i) => {
+              (el as HTMLElement).style.animation = `fade-rise 1s ease-out ${i * 0.18
+                }s both`;
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+    if (section2Ref.current) observer.observe(section2Ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <main>
+      {/* ═══════════════════════════════════════════════════════
+          GLOBAL ANIMATIONS & BASE STYLES
+          ═══════════════════════════════════════════════════════ */}
+      <style>{`
+        @keyframes fade-rise {
+          from { opacity: 0; transform: translateY(30px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50%      { transform: translateY(-10px); }
+        }
+        @keyframes scan {
+          0%   { top: 0%; opacity: 0; }
+          15%  { opacity: 1; }
+          85%  { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+        .animate-fade-rise {
+          animation: fade-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        .animate-fade-rise-d1 {
+          animation: fade-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+        }
+        .float-card {
+          animation: float 6s ease-in-out infinite;
+          will-change: transform;
+        }
+        .grain::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          opacity: 0.05;
+          pointer-events: none;
+          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+      `}</style>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 1 — BAROQUE HERO
+          ═══════════════════════════════════════════════════════ */}
+      <section
+        className="baroque-hero"
+        id="hero-section"
+        style={{
+          position: "relative",
+          width: "100%",
+          minHeight: "100vh",
+          overflow: "hidden",
+          background: "#1a1510",
+        }}
+      >
+        {/* Background painting — crossOrigin required for canvas pixel access */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={heroPaintingRef}
+          src="/hero-painting.png"
+          alt=""
+          aria-hidden="true"
+          crossOrigin="anonymous"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 0,
+            opacity: 0.95,
+            filter: "brightness(0.92) contrast(1.08) saturate(1.05)",
+          }}
+        />
+
+        {/* Vignette + bottom gradient for text legibility */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 1,
+            background: `
+              radial-gradient(circle at 50% 40%, transparent 35%, rgba(0,0,0,0.45) 100%),
+              linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 40%)
+            `,
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* ── Navigation Bar ── */}
+        <nav
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 20,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            padding: "1.5rem 2.5rem",
+            maxWidth: "80rem",
+            margin: "0 auto",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <MonogramLogo size={34} />
+            <p
+              style={{
+                fontSize: "11px",
+                color: "rgba(255,255,255,0.7)",
+                lineHeight: 1.5,
+                maxWidth: "140px",
+                marginLeft: "0.9rem",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Complete Business Automation. We Handle All Tasks. You Relax.
+            </p>
+          </div>
+          <button
+            id="get-started-btn"
+            style={{
+              padding: "0.6rem 1.75rem",
+              fontSize: "0.75rem",
+              textTransform: "uppercase",
+              letterSpacing: "0.18em",
+              color: "rgba(255,255,255,0.9)",
+              borderRadius: "9999px",
+              cursor: "pointer",
+              fontWeight: 400,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.35)",
+              transition: "all 0.3s ease",
+              backdropFilter: "blur(4px)",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.14)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.65)";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
+          >
+            Get Started
+          </button>
+        </nav>
+
+        {/* ── ML Detection Boxes — Hero ── */}
+        <DetectionBox
+          value="0.1429"
+          size="sm"
+          animDelay="0s"
+          style={{ top: "8%", left: "48%", zIndex: 10,opacity: 0.5, }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="0.2857"
+          size="sm"
+          animDelay="0.6s"
+          style={{ top: "16%", left: "16%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="0.7443"
+          size="md"
+          animDelay="1.2s"
+          style={{ top: "20%", left: "42%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="1.0000"
+          size="md"
+          animDelay="1.8s"
+          style={{ top: "18%", left: "32%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="1.1429"
+          size="sm"
+          animDelay="2.4s"
+          style={{ top: "28%", right: "30%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="1.5714"
+          size="sm"
+          animDelay="1.5s"
+          style={{ top: "36%", right: "18%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="1.8671"
+          size="sm"
+          animDelay="2.0s"
+          style={{ top: "52%", left: "34%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+        <DetectionBox
+          value="2.2857"
+          size="sm"
+          animDelay="3s"
+          style={{ bottom: "32%", left: "38%", zIndex: 10 }}
+          paintingRef={heroPaintingRef}
+        />
+
+        {/* ── Body text (left column) ── */}
+        <div
+          className="animate-fade-rise-d1"
+          style={{
+            position: "absolute",
+            bottom: "20%",
+            left: "2.5rem",
+            maxWidth: "240px",
+            zIndex: 10,
+          }}
+        >
+          <p
+            style={{
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.82)",
+              lineHeight: 1.75,
+              fontWeight: 300,
+              marginBottom: "1rem",
+              textShadow: "0 1px 10px rgba(0,0,0,0.5)",
+            }}
+          >
+            Our SaaS product takes over all exhausting operational activities,
+            complex analytics, and tedious process management. While algorithms
+            seamlessly build your success infrastructure and generate stable
+            profit, you get time for truly important things.
+          </p>
+          <p
+            style={{
+              fontSize: "11px",
+              color: "rgba(255,255,255,0.82)",
+              lineHeight: 1.75,
+              fontWeight: 300,
+              textShadow: "0 1px 10px rgba(0,0,0,0.5)",
+            }}
+          >
+            Delegate micromanagement to artificial intelligence and reliable
+            cloud solutions to enjoy absolute peace of mind.
+          </p>
+        </div>
+
+        {/* ── Hero H1 ── */}
+        <h1
+          className="animate-fade-rise"
+          style={{
+            position: "absolute",
+            bottom: "6%",
+            right: "2.5rem",
+            textAlign: "right",
+            maxWidth: "55%",
+            fontSize: "clamp(2.6rem, 5.2vw, 4.8rem)",
+            lineHeight: 0.98,
+            letterSpacing: "-1.2px",
+            fontWeight: 400,
+            color: "white",
+            fontStyle: "italic",
+            zIndex: 10,
+            textShadow: "0 4px 30px rgba(0,0,0,0.55)",
+          }}
+        >
+          Intelligent Daily
+          <br />
+          Routine Automation
+          <br />
+          For Your Business.
+          <br />
+          You Relax
+        </h1>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════
+          SECTION 2 — CRIMSON MANIFESTO
+          ═══════════════════════════════════════════════════════ */}
+      <section
+        ref={section2Ref}
+        className="crimson-section grain"
+        id="crimson-section"
+        style={{
+          position: "relative",
+          width: "100%",
+          background: "#9a1b1b",
+          padding: "6rem 1.5rem 4rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          overflow: "hidden",
+        }}
+      >
+        {/* Subtle radial glow */}
+        <div
+          style={{
+            position: "absolute",
+            top: "-20%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "120%",
+            height: "80%",
+            background:
+              "radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Logo */}
+        <div data-animate style={{ opacity: 0 }}>
+          <MonogramLogo size={42} />
+        </div>
+
+        {/* Tagline */}
+        <p
+          data-animate
+          style={{
+            opacity: 0,
+            fontSize: "11px",
+            letterSpacing: "0.22em",
+            color: "rgba(255,255,255,0.75)",
+            maxWidth: "26rem",
+            lineHeight: 1.8,
+            textTransform: "uppercase",
+            fontWeight: 500,
+            marginTop: "1.75rem",
+          }}
+        >
+          We built this platform with a single purpose to eliminate operational
+          chaos and restore balance to your daily business routine
+        </p>
+
+        {/* Signature Script */}
+        <p
+          data-animate
+          style={{
+            opacity: 0,
+            fontSize: "clamp(4rem, 8vw, 6.5rem)",
+            fontWeight: 700,
+            color: "white",
+            margin: "1.75rem 0",
+            lineHeight: 1.05,
+            fontStyle: "italic",
+            letterSpacing: "-0.02em",
+            textShadow: "0 2px 20px rgba(0,0,0,0.2)",
+          }}
+        >
+          S.PD
+        </p>
+
+        {/* Body paragraphs */}
+        <div
+          data-animate
+          style={{
+            opacity: 0,
+            maxWidth: "26rem",
+            margin: "0 auto",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.85)",
+              lineHeight: 1.8,
+              textAlign: "center",
+              fontWeight: 300,
+              marginBottom: "1.25rem",
+            }}
+          >
+            I was exhausted by software that demanded more effort than it
+            actually saved. That is why we engineered an autonomous architecture
+            that operates silently in the background.
+          </p>
+          <p
+            style={{
+              fontSize: "13px",
+              color: "rgba(255,255,255,0.85)",
+              lineHeight: 1.8,
+              textAlign: "center",
+              fontWeight: 300,
+            }}
+          >
+            Your business should serve your life, not consume it. Let our
+            algorithms handle the heavy lifting, so you can focus on the vision.
+          </p>
+        </div>
+
+        {/* ── Scholars Painting with Detection Box Overlays ── */}
+        <div
+          data-animate
+          style={{
+            opacity: 0,
+            position: "relative",
+            width: "100%",
+            maxWidth: "900px",
+            margin: "3.5rem auto 0",
+            borderRadius: "1rem",
+            overflow: "hidden",
+            boxShadow: "0 24px 70px rgba(0,0,0,0.55)",
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            ref={scholarsPaintingRef}
+            src="/scholars.png"
+            alt="Classical scholars examining modern technology — baroque painting"
+            crossOrigin="anonymous"
+            style={{
+              width: "100%",
+              height: "auto",
+              display: "block",
+              filter: "brightness(1.05) contrast(1.05)",
+            }}
+          />
+
+          {/* Gradient overlay */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to bottom, rgba(0,0,0,0.25) 0%, transparent 35%, transparent 65%, rgba(0,0,0,0.3) 100%)",
+              pointerEvents: "none",
+              borderRadius: "1rem",
+            }}
+          />
+
+          {/* Detection boxes — Scholars */}
+          <DetectionBox
+            value="0.1429"
+            size="sm"
+            animDelay="0s"
+            style={{ top: "10%", left: "42%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="0.7443"
+            size="sm"
+            animDelay="0.5s"
+            style={{ top: "22%", left: "28%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="0.8671"
+            size="sm"
+            animDelay="1.0s"
+            style={{ top: "18%", right: "22%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="1.0000"
+            size="sm"
+            animDelay="1.5s"
+            style={{ top: "40%", right: "28%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="1.7429"
+            size="sm"
+            animDelay="0.8s"
+            style={{ top: "35%", left: "30%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="1.5714"
+            size="sm"
+            animDelay="1.2s"
+            style={{ bottom: "38%", left: "35%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="1.8671"
+            size="sm"
+            animDelay="2.0s"
+            style={{ bottom: "28%", left: "18%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="2.0000"
+            size="sm"
+            animDelay="1.8s"
+            style={{ bottom: "32%", left: "28%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="1.7443"
+            size="sm"
+            animDelay="2.5s"
+            style={{ bottom: "20%", right: "15%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+          <DetectionBox
+            value="2.2857"
+            size="sm"
+            animDelay="3.0s"
+            style={{ bottom: "12%", right: "5%" }}
+            paintingRef={scholarsPaintingRef}
+          />
+        </div>
+      </section>
+    </main>
+  );
+}
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\app\components\LandingPage.tsx =====
+'use client';
+
+import { useRef, useEffect, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValueEvent,
+} from 'motion/react';
+import Lenis from 'lenis';
+
+/* ── Lazy-load Scene3D (no SSR) ── */
+const Scene3D = dynamic(() => import('./Scene3D'), { ssr: false });
+
+/* ══════════════════════════════════════════════════════════
+   Floating Nav
+   ══════════════════════════════════════════════════════════ */
+function FloatingNav({ visible }: { visible: boolean }) {
+  return (
+    <motion.header
+      className="floating-nav"
+      initial={{ y: -100 }}
+      animate={{ y: visible ? 0 : -100 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+    >
+      <div className="nav-logo">Art Studio</div>
+      <nav>
+        <ul className="nav-links">
+          <li><a href="#hero" className="nav-link">[G] Github</a></li>
+          <li><a href="#pipeline" className="nav-link">[D] Docs</a></li>
+          <li><a href="#studio" className="nav-link">[B] Blog</a></li>
+          <li><a href="#" className="nav-link">[S] Studio</a></li>
+        </ul>
+      </nav>
+    </motion.header>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Section Indicator
+   ══════════════════════════════════════════════════════════ */
+const SECTIONS = ['The Vision', 'The Pipeline', 'The Studio'];
+
+function SectionIndicator({ activeIndex }: { activeIndex: number }) {
+  return (
+    <div className="section-indicator">
+      {SECTIONS.map((label, i) => (
+        <div key={label} className={`indicator-item ${i === activeIndex ? 'active' : ''}`}>
+          <span className="indicator-dot" />
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Animated Text Helpers
+   ══════════════════════════════════════════════════════════ */
+function StaggerWords({ text, delay = 0 }: { text: string; delay?: number }) {
+  return (
+    <span style={{ display: 'inline' }}>
+      {text.split(' ').map((word, i) => (
+        <motion.span
+          key={`${word}-${i}`}
+          initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{
+            duration: 0.6,
+            delay: delay + i * 0.08,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+          viewport={{ once: true, amount: 0.5 }}
+          style={{ display: 'inline-block', marginRight: '0.3em' }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Hero Section (0 – 33%)
+   ══════════════════════════════════════════════════════════ */
+function HeroSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 1, 0]);
+  const y = useTransform(scrollYProgress, [0.5, 1], [0, -80]);
+  const scale = useTransform(scrollYProgress, [0.5, 1], [1, 0.95]);
+
+  return (
+    <section ref={ref} className="section-overlay" style={{ height: '160vh' }} id="hero">
+      <motion.div className="section-content" style={{ opacity, y, scale }}>
+        <div style={{ maxWidth: 620 }}>
+          <motion.div
+            className="section-subtitle"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            RAG-Powered GAN Art Studio
+          </motion.div>
+
+          <h1 className="display-heading">
+            <StaggerWords text="Describe a style." delay={0.5} />
+            <br />
+            <StaggerWords text="Retrieve context." delay={0.8} />
+            <br />
+            <StaggerWords text="Generate art." delay={1.1} />
+          </h1>
+
+          <motion.p
+            className="section-body"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 1.4 }}
+            viewport={{ once: true }}
+          >
+            Art Studio ships with a RAG engine that retrieves reference images and
+            artist context, then a CLIP-guided GAN generates a new artwork in that
+            style. Whether you describe it or tweak it by hand, Art Studio just works.
+          </motion.p>
+
+          <motion.div
+            className="tag-row"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.7 }}
+            viewport={{ once: true }}
+          >
+            <span className="tag">RAG-Powered</span>
+            <span className="tag">CLIP-Guided</span>
+            <span className="tag">StyleGAN2</span>
+            <span className="tag">WikiArt</span>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Pipeline Section (33% – 66%)
+   ══════════════════════════════════════════════════════════ */
+function PipelineSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [0, 1, 1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.2], [60, 0]);
+  const scale = useTransform(scrollYProgress, [0.7, 1], [1, 0.95]);
+
+  return (
+    <section ref={ref} className="section-overlay" style={{ height: '160vh' }} id="pipeline">
+      <motion.div className="section-content" style={{ opacity, y, scale }}>
+        <div style={{ maxWidth: 560 }}>
+          <motion.div
+            className="section-subtitle"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            The Pipeline
+          </motion.div>
+
+          <h2 className="display-heading">
+            <StaggerWords text="Two systems," />
+            <br />
+            <StaggerWords text="one seamless" delay={0.2} />
+            <br />
+            <StaggerWords text="pipeline." delay={0.4} />
+          </h2>
+
+          <motion.p
+            className="section-body"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            Describe any art style in natural language. Our RAG engine retrieves
+            the most relevant reference artworks and artist context. Then CLIP-guided
+            latent steering shapes a StyleGAN2 output to match your vision — not just
+            a class label, but the actual artistic DNA.
+          </motion.p>
+
+          <motion.div
+            className="pipeline-steps"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            viewport={{ once: true, amount: 0.5 }}
+          >
+            {[
+              'Text-to-style RAG retrieval',
+              'CLIP embedding space mapping',
+              'Latent vector optimization',
+              'Style-conditioned generation',
+            ].map((step, i) => (
+              <motion.div
+                key={step}
+                className="pipeline-step"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.4, delay: 0.9 + i * 0.12 }}
+                viewport={{ once: true }}
+              >
+                <span className="step-number">{i + 1}</span>
+                <span>{step}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Studio CTA Section (66% – 100%)
+   ══════════════════════════════════════════════════════════ */
+function StudioCTA() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end end'],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.3, 1], [0, 1, 1]);
+  const y = useTransform(scrollYProgress, [0, 0.3], [80, 0]);
+
+  return (
+    <section ref={ref} className="section-overlay" style={{ height: '120vh' }} id="studio">
+      <motion.div
+        className="section-content"
+        style={{
+          opacity,
+          y,
+          justifyContent: 'flex-end',
+          textAlign: 'right',
+        }}
+      >
+        <div style={{ maxWidth: 600 }}>
+          <motion.div
+            className="section-subtitle"
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.5 }}
+            style={{ textAlign: 'right' }}
+          >
+            One platform for any creative vision
+          </motion.div>
+
+          <h2 className="display-heading" style={{ textAlign: 'right' }}>
+            <StaggerWords text="Your imagination." />
+            <br />
+            <StaggerWords text="Our engine." delay={0.2} />
+            <br />
+            <StaggerWords text="Infinite styles." delay={0.4} />
+          </h2>
+
+          <motion.p
+            className="section-body"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true, amount: 0.5 }}
+            style={{ marginLeft: 'auto', textAlign: 'right' }}
+          >
+            Whatever you want to create, Art Studio can make it happen.
+            Start something new, blend styles, or explore the embedding space
+            of 10,000+ artworks. One technology, used in whatever way
+            the project needs.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+            viewport={{ once: true }}
+            style={{ display: 'flex', justifyContent: 'flex-end' }}
+          >
+            <a href="#" className="cta-button">
+              Enter the Studio
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="M3 8H13M13 8L9 4M13 8L9 12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </motion.div>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
+   Main Landing Page
+   ══════════════════════════════════════════════════════════ */
+export default function LandingPage() {
+  const [navVisible, setNavVisible] = useState(true);
+  const [activeSection, setActiveSection] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  /* ── Lenis smooth scroll ── */
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.5,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
+  /* ── Track scroll for nav + indicator ── */
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  useMotionValueEvent(smoothProgress, 'change', (v) => {
+    setNavVisible(true);
+    if (v < 0.3) setActiveSection(0);
+    else if (v < 0.65) setActiveSection(1);
+    else setActiveSection(2);
+  });
+
+  return (
+    <>
+      {/* 3D background */}
+      <Scene3D />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 px-6 md:px-12 py-6 flex justify-between items-center mix-blend-difference">
-        <div className="text-xl md:text-2xl font-bold tracking-tighter">
-          ARTSTUDIO<span className="text-cyan-400">.AI</span>
-        </div>
-        <div className="hidden md:flex gap-10 text-sm font-medium tracking-wide uppercase">
-          <a href="#pipeline" className="hover:text-cyan-400 transition-colors duration-300">
-            Pipeline
-          </a>
-          <a href="#tech" className="hover:text-cyan-400 transition-colors duration-300">
-            Technology
-          </a>
-          <a href="#gallery" className="hover:text-cyan-400 transition-colors duration-300">
-            Gallery
-          </a>
-        </div>
-      </nav>
+      <FloatingNav visible={navVisible} />
 
-      {/* ========================================== */}
-      {/* HERO SECTION */}
-      {/* ========================================== */}
-      <section className="hero-section relative min-h-screen flex items-center justify-center perspective-2000 preserve-3d z-10">
-        {/* Floating particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none preserve-3d">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-cyan-400/40 rounded-full animate-float-particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${80 + Math.random() * 20}%`,
-                animationDelay: `${Math.random() * 8}s`,
-                animationDuration: `${6 + Math.random() * 8}s`,
-              }}
-            />
-          ))}
-        </div>
+      {/* Section indicator */}
+      <SectionIndicator activeIndex={activeSection} />
 
-        <div className="page-wrapper preserve-3d text-center max-w-6xl px-6 pt-20">
-          <div className="overflow-hidden mb-2">
-            <h1 className="hero-title-line hero-title-main text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter leading-[0.9] bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent preserve-3d">
-              RAG-Powered
-            </h1>
-          </div>
-          <div className="overflow-hidden mb-10">
-            <h1 className="hero-title-line hero-title-sub text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter leading-[0.9] text-white preserve-3d">
-              GAN Art Studio
-            </h1>
-          </div>
-
-          <p className="hero-tagline text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light tracking-wide">
-            Describe an art style → RAG retrieves reference images + artist context → CLIP-guided GAN generates a new artwork in that style.{' '}
-            <span className="text-white font-medium">Two systems, one seamless pipeline.</span>
-          </p>
-
-          <div className="mt-14 flex flex-col sm:flex-row gap-5 justify-center items-center">
-            <button className="hero-cta px-10 py-4 rounded-full bg-white text-black font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-[0_0_30px_rgba(255,255,255,0.15)]">
-              Generate Artwork
-            </button>
-            <button className="hero-cta px-10 py-4 rounded-full border border-white/20 hover:bg-white/5 hover:border-white/40 transition-all duration-300 backdrop-blur-md text-lg">
-              Explore Pipeline
-            </button>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="scroll-indicator absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-zinc-500 text-xs tracking-widest uppercase">
-          <span>Scroll</span>
-          <div className="w-px h-12 bg-gradient-to-b from-zinc-500 to-transparent" />
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* PIPELINE SECTION */}
-      {/* ========================================== */}
-      <section
-        id="pipeline"
-        className="pipeline-section relative py-32 md:py-40 px-6 perspective-2000 preserve-3d z-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="pipeline-title text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-6 tracking-tight preserve-3d">
-            The <span className="text-cyan-400">Pipeline</span>
-          </h2>
-          <p className="text-center text-zinc-500 text-lg mb-24 max-w-2xl mx-auto">
-            From prompt to masterpiece — watch the system retrieve, reason, and create.
-          </p>
-
-          {/* Connector line (hidden on mobile) */}
-          <div className="hidden md:block relative h-px mb-16 mx-12">
-            <div className="pipeline-connector absolute inset-0" />
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 preserve-3d">
-            {[
-              {
-                step: '01',
-                title: 'Describe',
-                desc: 'Input your desired art style, mood, and visual concepts through natural language.',
-                img: '/images/rag-flow.jpg',
-                color: 'cyan',
-              },
-              {
-                step: '02',
-                title: 'Retrieve',
-                desc: 'RAG system searches millions of artworks to find perfect references and artist context.',
-                img: '/images/neural-abstract.jpg',
-                color: 'purple',
-              },
-              {
-                step: '03',
-                title: 'Generate',
-                desc: 'CLIP-guided GAN synthesizes a unique artwork guided by retrieved references.',
-                img: '/images/latent-space.jpg',
-                color: 'pink',
-              },
-              {
-                step: '04',
-                title: 'Refine',
-                desc: 'Iterative refinement ensures the output matches your described style with precision.',
-                img: '/images/artwork-abstract.jpg',
-                color: 'orange',
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                className="pipeline-card card-glare group relative preserve-3d"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div
-                  className={`
-                    relative h-full bg-white/[0.03] backdrop-blur-xl border border-white/10 
-                    rounded-2xl p-8 hover:border-${item.color}-500/40 transition-all duration-500
-                    hover:shadow-[0_0_40px_rgba(0,240,255,0.08)] hover:-translate-y-2
-                  `}
-                >
-                  <div className="text-7xl font-bold text-white/[0.06] mb-4 leading-none select-none">
-                    {item.step}
-                  </div>
-                  <h3
-                    className={`
-                      text-2xl font-bold mb-3 text-white group-hover:text-${item.color}-400 
-                      transition-colors duration-300
-                    `}
-                  >
-                    {item.title}
-                  </h3>
-                  <p className="text-zinc-400 leading-relaxed mb-8 text-sm md:text-base">
-                    {item.desc}
-                  </p>
-                  <div className="relative h-44 w-full rounded-xl overflow-hidden bg-zinc-900/50">
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      fill
-                      className="object-cover opacity-50 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700"
-                      sizes="(max-width: 768px) 100vw, 25vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* TECHNOLOGY SECTION */}
-      {/* ========================================== */}
-      <section
-        id="tech"
-        className="tech-section relative py-32 md:py-40 px-6 perspective-2000 preserve-3d z-10"
-      >
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-          <div className="tech-text preserve-3d">
-            <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tight leading-[1.1]">
-              Two Systems.
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-cyan-400">
-                One Seamless Flow.
-              </span>
-            </h2>
-            <p className="text-xl text-zinc-400 leading-relaxed mb-10">
-              Our hybrid architecture combines the semantic understanding of Retrieval-Augmented
-              Generation with the creative power of Generative Adversarial Networks. CLIP embeddings
-              bridge the gap between language and vision.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {['RAG Retrieval', 'CLIP Guidance', 'StyleGAN', 'Latent Diffusion', 'Vector DB'].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-zinc-300 hover:border-cyan-500/40 hover:text-cyan-400 transition-all duration-300 cursor-default"
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
-            </div>
-          </div>
-
-          <div className="grid gap-5 preserve-3d">
-            {[
-              {
-                title: 'Semantic Retrieval',
-                desc: 'Vector database search across 10M+ artworks with multimodal embeddings for precise style matching.',
-                color: 'purple',
-                icon: '◈',
-              },
-              {
-                title: 'Cross-Modal Guidance',
-                desc: 'CLIP aligns text descriptions with visual features, directing the GAN through latent space interpolation.',
-                color: 'cyan',
-                icon: '◇',
-              },
-              {
-                title: 'Adaptive Generation',
-                desc: 'Dynamic layer freezing and fine-tuning based on retrieved artist techniques and compositional rules.',
-                color: 'pink',
-                icon: '◉',
-              },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className={`
-                  feature-card card-glare relative bg-white/[0.03] backdrop-blur-md border border-white/10 
-                  rounded-2xl p-7 hover:border-${card.color}-500/40 transition-all duration-500
-                  ${i === 1 ? 'lg:translate-x-8' : ''}
-                `}
-              >
-                <div className={`text-${card.color}-400 text-2xl mb-3`}>{card.icon}</div>
-                <h3 className={`text-xl font-bold mb-2 text-${card.color}-400`}>{card.title}</h3>
-                <p className="text-zinc-400 leading-relaxed text-sm">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* GALLERY SECTION */}
-      {/* ========================================== */}
-      <section
-        id="gallery"
-        className="gallery-section relative py-32 md:py-40 px-6 perspective-2000 preserve-3d z-10"
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="gallery-title text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-6 tracking-tight">
-            Generated <span className="text-pink-500">Works</span>
-          </h2>
-          <p className="text-center text-zinc-500 text-lg mb-20 max-w-2xl mx-auto">
-            Each piece emerges from the latent space — guided by retrieval, refined by adversarial
-            precision.
-          </p>
-
-          <div className="grid md:grid-cols-3 gap-8 preserve-3d">
-            {[
-              {
-                title: 'Neon Impressionism',
-                style: 'Cyberpunk × Van Gogh',
-                img: '/images/artwork-starry.jpg',
-              },
-              {
-                title: 'Latent Metropolis',
-                style: 'Abstract × Surrealism',
-                img: '/images/artwork-cyber.jpg',
-              },
-              {
-                title: 'Digital Baroque',
-                style: 'Classical × Neural',
-                img: '/images/artwork-abstract.jpg',
-              },
-            ].map((art, i) => (
-              <div
-                key={i}
-                className="gallery-item group relative preserve-3d cursor-pointer"
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div
-                  className="
-                    relative aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-900 
-                    border border-white/10 group-hover:border-pink-500/50 
-                    transition-all duration-700 shadow-2xl shadow-black/50
-                    group-hover:shadow-[0_20px_60px_rgba(255,0,110,0.15)]
-                  "
-                >
-                  <Image
-                    src={art.img}
-                    alt={art.title}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-
-                  {/* Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-8 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                    <h3 className="text-3xl font-bold text-white mb-1">{art.title}</h3>
-                    <p className="text-pink-400 text-sm font-medium tracking-wide uppercase">
-                      {art.style}
-                    </p>
-                  </div>
-
-                  {/* Corner accent */}
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 backdrop-blur-md">
-                    <span className="text-white text-lg">→</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* CTA SECTION */}
-      {/* ========================================== */}
-      <section className="cta-section relative py-40 md:py-52 px-6 perspective-2000 preserve-3d z-10 overflow-hidden">
-        {/* Background glow that scales on scroll */}
-        <div className="cta-bg-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gradient-to-r from-cyan-500/20 to-purple-600/20 blur-[150px] pointer-events-none" />
-
-        <div className="cta-container relative max-w-4xl mx-auto text-center preserve-3d">
-          <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 tracking-tighter leading-[1]">
-            Ready to <span className="text-cyan-400">Create?</span>
-          </h2>
-          <p className="text-xl md:text-2xl text-zinc-400 mb-14 max-w-2xl mx-auto leading-relaxed">
-            Experience the future of AI art generation. Where retrieval meets creation in the latent
-            space.
-          </p>
-
-          <button className="animate-glow-pulse px-14 py-5 rounded-full bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-600 text-white font-bold text-lg hover:scale-105 transition-transform duration-300">
-            Start Creating Now
-          </button>
-
-          <p className="mt-8 text-zinc-600 text-sm">
-            No credit card required. Start generating in seconds.
-          </p>
-        </div>
-      </section>
-
-      {/* ========================================== */}
-      {/* FOOTER */}
-      {/* ========================================== */}
-      <footer className="relative py-16 px-6 border-t border-white/10 z-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-3xl font-bold tracking-tighter">
-            ARTSTUDIO<span className="text-cyan-400">.AI</span>
-          </div>
-          <div className="flex gap-8 text-sm text-zinc-500">
-            <a href="#" className="hover:text-white transition-colors">
-              Documentation
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              API
-            </a>
-            <a href="#" className="hover:text-white transition-colors">
-              GitHub
-            </a>
-          </div>
-          <div className="text-zinc-600 text-sm">
-            © 2026 RAG-Powered GAN Art Studio.
-          </div>
-        </div>
-      </footer>
-    </div>
-  )
+      {/* Scrollable content */}
+      <div className="scroll-container" ref={containerRef}>
+        <HeroSection />
+        <PipelineSection />
+        <StudioCTA />
+      </div>
+    </>
+  );
 }
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\app\components\Scene3D.tsx =====
+'use client';
+
+import { useRef, useMemo, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { EffectComposer, Bloom, Vignette } from '@react-three/postprocessing';
+import * as THREE from 'three';
+
+/* ──────────────────── Constants ──────────────────── */
+const PARTICLE_COUNT = 16000;
+const COLOR_CYAN = new THREE.Color('#00e5ff');
+const COLOR_VIOLET = new THREE.Color('#8b5cf6');
+const COLOR_MAGENTA = new THREE.Color('#d946ef');
+
+/* ──────────────────── Shape Generators ──────────────────── */
+function generateTorusKnot(count: number): Float32Array {
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const t = (i / count) * Math.PI * 4;
+    const p = 2, q = 3;
+    const r = 2 + 0.8 * Math.cos(q * t);
+    const jitter = 0.15;
+    pos[i * 3]     = r * Math.cos(p * t) + (Math.random() - 0.5) * jitter;
+    pos[i * 3 + 1] = r * Math.sin(p * t) + (Math.random() - 0.5) * jitter;
+    pos[i * 3 + 2] = 0.8 * Math.sin(q * t) + (Math.random() - 0.5) * jitter;
+  }
+  return pos;
+}
+
+function generateSphere(count: number): Float32Array {
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const phi = Math.acos(2 * Math.random() - 1);
+    const theta = Math.random() * Math.PI * 2;
+    const r = 1.8 + Math.random() * 0.6;
+    pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    pos[i * 3 + 2] = r * Math.cos(phi);
+  }
+  return pos;
+}
+
+function generateScatter(count: number): Float32Array {
+  const pos = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    const phi = Math.acos(2 * Math.random() - 1);
+    const theta = Math.random() * Math.PI * 2;
+    const r = 2.5 + Math.random() * 5;
+    pos[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+    pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+    pos[i * 3 + 2] = r * Math.cos(phi);
+  }
+  return pos;
+}
+
+/* ──────────────────── Shaders ──────────────────── */
+const vertexShader = /* glsl */ `
+  uniform float uTime;
+  uniform float uProgress;
+  uniform float uSize;
+
+  attribute vec3 aPos1;
+  attribute vec3 aPos2;
+  attribute vec3 aPos3;
+  attribute float aRandom;
+
+  varying float vAlpha;
+  varying vec3 vColor;
+
+  void main() {
+    // Morph between shapes
+    vec3 pos;
+    if (uProgress < 0.4) {
+      float t = smoothstep(0.0, 0.4, uProgress);
+      pos = mix(aPos1, aPos2, t);
+    } else {
+      float t = smoothstep(0.4, 0.85, uProgress);
+      pos = mix(aPos2, aPos3, t);
+    }
+
+    // Add floating motion
+    float floatSpeed = 0.3 + aRandom * 0.4;
+    pos.x += sin(uTime * floatSpeed + aRandom * 6.28) * 0.08;
+    pos.y += cos(uTime * floatSpeed * 0.7 + aRandom * 4.0) * 0.08;
+    pos.z += sin(uTime * floatSpeed * 0.5 + aRandom * 2.0) * 0.05;
+
+    vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+
+    // Size with attenuation
+    float sizeVariation = 0.5 + aRandom * 1.0;
+    gl_PointSize = uSize * sizeVariation * (1.0 / -mvPosition.z);
+    gl_Position = projectionMatrix * mvPosition;
+
+    // Color: cyan → violet → magenta based on random + progress
+    vec3 cCyan    = vec3(0.0, 0.898, 1.0);
+    vec3 cViolet  = vec3(0.545, 0.361, 0.965);
+    vec3 cMagenta = vec3(0.851, 0.275, 0.937);
+    float colorMix = fract(aRandom * 3.7 + uProgress * 0.5);
+    if (colorMix < 0.5) {
+      vColor = mix(cCyan, cViolet, colorMix * 2.0);
+    } else {
+      vColor = mix(cViolet, cMagenta, (colorMix - 0.5) * 2.0);
+    }
+
+    // Alpha based on distance
+    float dist = length(pos);
+    vAlpha = smoothstep(8.0, 1.0, dist) * (0.6 + aRandom * 0.4);
+  }
+`;
+
+const fragmentShader = /* glsl */ `
+  varying float vAlpha;
+  varying vec3 vColor;
+
+  void main() {
+    float d = length(gl_PointCoord - vec2(0.5));
+    if (d > 0.5) discard;
+
+    float strength = 1.0 - d * 2.0;
+    strength = pow(strength, 1.8);
+
+    gl_FragColor = vec4(vColor, strength * vAlpha * 0.85);
+  }
+`;
+
+/* ──────────────────── ParticleVortex ──────────────────── */
+function ParticleVortex() {
+  const pointsRef = useRef<THREE.Points>(null);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+
+  const { positions, randoms, pos1, pos2, pos3 } = useMemo(() => {
+    const p1 = generateTorusKnot(PARTICLE_COUNT);
+    const p2 = generateSphere(PARTICLE_COUNT);
+    const p3 = generateScatter(PARTICLE_COUNT);
+    const r = new Float32Array(PARTICLE_COUNT);
+    for (let i = 0; i < PARTICLE_COUNT; i++) r[i] = Math.random();
+    return { positions: p1.slice(), randoms: r, pos1: p1, pos2: p2, pos3: p3 };
+  }, []);
+
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uProgress: { value: 0 },
+      uSize: { value: 4.0 * Math.min(window.devicePixelRatio, 2) },
+    }),
+    []
+  );
+
+  useFrame(({ clock }) => {
+    if (!materialRef.current) return;
+
+    const scrollY = window.scrollY || 0;
+    const maxScroll = Math.max(
+      document.documentElement.scrollHeight - window.innerHeight,
+      1
+    );
+    const progress = Math.min(scrollY / maxScroll, 1);
+
+    materialRef.current.uniforms.uTime.value = clock.getElapsedTime();
+    materialRef.current.uniforms.uProgress.value = progress;
+
+    // Slow auto-rotation
+    if (pointsRef.current) {
+      pointsRef.current.rotation.y += 0.001;
+      pointsRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.05;
+    }
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={PARTICLE_COUNT}
+          array={positions}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-aPos1"
+          count={PARTICLE_COUNT}
+          array={pos1}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-aPos2"
+          count={PARTICLE_COUNT}
+          array={pos2}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-aPos3"
+          count={PARTICLE_COUNT}
+          array={pos3}
+          itemSize={3}
+        />
+        <bufferAttribute
+          attach="attributes-aRandom"
+          count={PARTICLE_COUNT}
+          array={randoms}
+          itemSize={1}
+        />
+      </bufferGeometry>
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={vertexShader}
+        fragmentShader={fragmentShader}
+        uniforms={uniforms}
+        transparent
+        depthWrite={false}
+        blending={THREE.AdditiveBlending}
+      />
+    </points>
+  );
+}
+
+/* ──────────────────── CameraRig ──────────────────── */
+function CameraRig() {
+  const { camera } = useThree();
+  const targetPos = useRef(new THREE.Vector3(0, 0, 6));
+  const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
+  const mouseRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      mouseRef.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseRef.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', onMouseMove);
+    return () => window.removeEventListener('mousemove', onMouseMove);
+  }, []);
+
+  useFrame(() => {
+    const scrollY = window.scrollY || 0;
+    const maxScroll = Math.max(
+      document.documentElement.scrollHeight - window.innerHeight,
+      1
+    );
+    const p = Math.min(scrollY / maxScroll, 1);
+
+    // Camera path: 3 keyframes
+    let tx: number, ty: number, tz: number;
+    if (p < 0.33) {
+      const t = p / 0.33;
+      tx = THREE.MathUtils.lerp(0, 3.5, t);
+      ty = THREE.MathUtils.lerp(0, 1.2, t);
+      tz = THREE.MathUtils.lerp(6, 5, t);
+    } else if (p < 0.66) {
+      const t = (p - 0.33) / 0.33;
+      tx = THREE.MathUtils.lerp(3.5, -1, t);
+      ty = THREE.MathUtils.lerp(1.2, 0.5, t);
+      tz = THREE.MathUtils.lerp(5, 3.5, t);
+    } else {
+      const t = (p - 0.66) / 0.34;
+      tx = THREE.MathUtils.lerp(-1, 0, t);
+      ty = THREE.MathUtils.lerp(0.5, 0, t);
+      tz = THREE.MathUtils.lerp(3.5, 2, t);
+    }
+
+    // Mouse parallax
+    const mx = mouseRef.current.x * 0.3;
+    const my = mouseRef.current.y * -0.2;
+
+    targetPos.current.set(tx + mx, ty + my, tz);
+    camera.position.lerp(targetPos.current, 0.04);
+    
+    // Look at center with slight offset
+    targetLookAt.current.set(mx * 0.1, my * 0.1, 0);
+    camera.lookAt(targetLookAt.current);
+  });
+
+  return null;
+}
+
+/* ──────────────────── Main Scene ──────────────────── */
+export default function Scene3D() {
+  return (
+    <Canvas
+      className="scene-canvas"
+      camera={{ position: [0, 0, 6], fov: 50, near: 0.1, far: 100 }}
+      dpr={[1, 2]}
+      gl={{ antialias: true, alpha: false }}
+      onCreated={({ gl }) => {
+        gl.setClearColor('#050508');
+      }}
+    >
+      <fog attach="fog" args={['#050508', 5, 20]} />
+      <ambientLight intensity={0.15} />
+      <pointLight position={[5, 5, 5]} intensity={0.5} color="#00e5ff" />
+      <pointLight position={[-5, -3, 3]} intensity={0.3} color="#8b5cf6" />
+
+      <ParticleVortex />
+      <CameraRig />
+
+      <EffectComposer>
+        <Bloom
+          intensity={1.5}
+          luminanceThreshold={0.1}
+          luminanceSmoothing={0.9}
+          mipmapBlur
+        />
+        <Vignette offset={0.3} darkness={0.7} />
+      </EffectComposer>
+    </Canvas>
+  );
+}
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\config.py =====
+# backend/rag/config.py
+
+from pydantic_settings import BaseSettings
+from functools import lru_cache
+
+
+class Settings(BaseSettings):
+    # Qdrant
+    QDRANT_URL: str
+    QDRANT_API_KEY: str
+    QDRANT_COLLECTION: str = "art_references"
+    QDRANT_VECTOR_SIZE: int = 512  # CLIP ViT-B/32 output dim
+
+    # CLIP
+    CLIP_MODEL: str = "ViT-B/32"
+    CLIP_DEVICE: str = "cpu"  # switch to "cuda" on Railway GPU
+
+    # BLIP-2
+    BLIP_MODEL: str = "Salesforce/blip2-opt-2.7b"
+    BLIP_DEVICE: str = "cpu"
+
+    # Retrieval
+    TOP_K: int = 5
+    SCORE_THRESHOLD: float = 0.20
+
+    # App
+    ENV: str = "development"
+    LOG_LEVEL: str = "INFO"
+
+    class Config:
+        env_file = ".env"
+        extra = "ignore"
+
+
+@lru_cache()
+def get_settings() -> Settings:
+    return Settings()
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\main.py =====
+# backend/rag/main.py
+
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
+from rag.config import get_settings
+from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import ensure_collection_exists, get_collection_info
+from rag.schemas.models import (
+    IngestRequest, IngestResponse,
+    RetrievalRequest, RetrievalResponse,
+    PipelineRequest, PipelineContext,
+)
+from rag.ingestion.ingestor import ingest_artwork
+from rag.retrieval.retriever import retrieve_artworks
+from rag.pipeline import run_rag_pipeline
+
+settings = get_settings()
+logger = get_logger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Startup: ensure Qdrant collection exists."""
+    logger.info("RDStudio RAG service starting up...")
+    ensure_collection_exists()
+    
+    # Pre-load CLIP so first request is instant
+    from rag.embeddings.clip_encoder import _load_model
+    _load_model()
+    logger.info("CLIP model pre-loaded.")
+    
+    logger.info("Qdrant collection ready.")
+    yield
+    logger.info("RDStudio RAG service shutting down.")
+
+
+app = FastAPI(
+    title="RDStudio — RAG Pipeline",
+    description="CLIP-powered retrieval pipeline for GAN art generation",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   # tighten in production
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# ── Health ────────────────────────────────────────────────────────────────
+
+@app.get("/health", tags=["Health"])
+def health_check():
+    return {"status": "ok", "service": "rag-pipeline", "env": settings.ENV}
+
+
+@app.get("/health/qdrant", tags=["Health"])
+def qdrant_health():
+    try:
+        info = get_collection_info()
+        return {"status": "ok", "collection": info}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Qdrant unreachable: {str(e)}")
+
+
+# ── Ingestion ─────────────────────────────────────────────────────────────
+
+@app.post("/ingest", response_model=IngestResponse, tags=["Ingestion"])
+def ingest(request: IngestRequest):
+    """
+    Ingest a single artwork into the vector store.
+    Downloads the image, generates BLIP-2 caption, CLIP embeds, upserts to Qdrant.
+    """
+    try:
+        return ingest_artwork(request)
+    except Exception as e:
+        logger.error(f"Ingestion failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── Retrieval ─────────────────────────────────────────────────────────────
+
+@app.post("/retrieve", response_model=RetrievalResponse, tags=["Retrieval"])
+def retrieve(request: RetrievalRequest):
+    """
+    Retrieve top-K similar artworks for a text query using CLIP embeddings.
+    """
+    try:
+        return retrieve_artworks(request)
+    except Exception as e:
+        logger.error(f"Retrieval failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── Pipeline ──────────────────────────────────────────────────────────────
+
+@app.post("/pipeline", response_model=PipelineContext, tags=["Pipeline"])
+def pipeline(request: PipelineRequest):
+    """
+    Full RAG pipeline. Returns assembled PipelineContext for GAN conditioning.
+    Call this from the generation service — not the frontend directly.
+    """
+    try:
+        return run_rag_pipeline(request)
+    except Exception as e:
+        logger.error(f"Pipeline failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\pipeline.py =====
+# backend/rag/pipeline.py
+
+from rag.schemas.models import PipelineRequest, PipelineContext, RetrievalRequest
+from rag.retrieval.retriever import retrieve_artworks
+from rag.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
+
+def run_rag_pipeline(request: PipelineRequest) -> PipelineContext:
+    """
+    Full RAG pipeline — entry point for the GAN generation service.
+
+    Steps:
+      1. Retrieve top-K similar artworks for the query
+      2. Assemble a style_summary string (concatenated captions)
+      3. Collect reference image URLs for CLIP guidance in GAN
+
+    Args:
+        request: PipelineRequest with query and optional top_k.
+
+    Returns:
+        PipelineContext — passed directly into the GAN conditioning step.
+    """
+    logger.info(f"Running RAG pipeline for: '{request.query}'")
+
+    # Step 1 — Retrieve
+    retrieval = retrieve_artworks(
+        RetrievalRequest(query=request.query, top_k=request.top_k)
+    )
+
+    # Step 2 — Build style summary (captions concatenated, for LLM/GAN context)
+    style_summary = _build_style_summary(
+        query=request.query,
+        artworks=retrieval.results,
+    )
+
+    # Step 3 — Collect reference image URLs (top results only)
+    reference_urls = [art.image_url for art in retrieval.results]
+
+    context = PipelineContext(
+        query=request.query,
+        artworks=retrieval.results,
+        style_summary=style_summary,
+        reference_image_urls=reference_urls,
+    )
+
+    logger.info(
+        f"Pipeline complete — {len(retrieval.results)} references, "
+        f"style_summary length: {len(style_summary)} chars"
+    )
+    return context
+
+
+def _build_style_summary(query: str, artworks: list) -> str:
+    """
+    Combine retrieved artwork captions into a conditioning prompt.
+    Format: [Query context] + top captions joined together.
+    """
+    if not artworks:
+        return f"Artwork in the style of: {query}"
+
+    caption_lines = [
+        f"- {art.title} by {art.artist} ({art.style}): {art.caption}"
+        for art in artworks
+    ]
+
+    return (
+        f"Style query: {query}\n\n"
+        f"Reference artworks:\n"
+        + "\n".join(caption_lines)
+    )
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\embeddings\clip_encoder.py =====
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\ingestion\captioner.py =====
+# backend/rag/ingestion/captioner.py
+
+import requests
+from io import BytesIO
+from PIL import Image
+from functools import lru_cache
+from transformers import Blip2Processor, Blip2ForConditionalGeneration
+import torch
+
+from rag.config import get_settings
+from rag.utils.logger import get_logger
+
+settings = get_settings()
+logger = get_logger(__name__)
+
+
+@lru_cache(maxsize=1)
+def _load_blip2():
+    logger.info(f"Loading BLIP-2 model: {settings.BLIP_MODEL} on {settings.BLIP_DEVICE}")
+    processor = Blip2Processor.from_pretrained(settings.BLIP_MODEL)
+    model = Blip2ForConditionalGeneration.from_pretrained(
+        settings.BLIP_MODEL,
+        torch_dtype=torch.float16 if settings.BLIP_DEVICE == "cuda" else torch.float32,
+    ).to(settings.BLIP_DEVICE)
+    model.eval()
+    return processor, model
+
+
+def caption_from_url(image_url: str) -> str:
+    """
+    Download image from URL and generate a descriptive caption using BLIP-2.
+    Returns a single caption string.
+    """
+    response = requests.get(image_url, timeout=10)
+    response.raise_for_status()
+    image = Image.open(BytesIO(response.content)).convert("RGB")
+
+    return caption_from_pil(image)
+
+
+def caption_from_pil(image: Image.Image) -> str:
+    """
+    Generate caption from an already-loaded PIL Image.
+    """
+    processor, model = _load_blip2()
+    device = settings.BLIP_DEVICE
+
+    inputs = processor(images=image, return_tensors="pt").to(
+        device,
+        torch.float16 if device == "cuda" else torch.float32,
+    )
+
+    with torch.no_grad():
+        output = model.generate(**inputs, max_new_tokens=80)
+
+    caption = processor.decode(output[0], skip_special_tokens=True).strip()
+    logger.debug(f"BLIP-2 caption: {caption}")
+    return caption
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\ingestion\ingestor.py =====
+# backend/rag/ingestion/ingestor.py
+
+from rag.schemas.models import IngestRequest, IngestResponse, ArtworkMetadata
+from rag.embeddings.clip_encoder import encode_image_from_url
+from rag.ingestion.captioner import caption_from_url
+from rag.vectorstore.qdrant_client import upsert_artwork
+from rag.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
+
+def ingest_artwork(request: IngestRequest) -> IngestResponse:
+    """
+    Full ingestion pipeline for a single artwork:
+      1. Caption the image with BLIP-2
+      2. Embed the image with CLIP
+      3. Build metadata payload
+      4. Upsert into Qdrant
+
+    Args:
+        request: IngestRequest with image_url, title, artist, style, etc.
+
+    Returns:
+        IngestResponse with success status and assigned artwork_id.
+    """
+    logger.info(f"Ingesting artwork: '{request.title}' by {request.artist}")
+
+    # Step 1 — Generate caption
+    # caption = caption_from_url(request.image_url)
+    caption = f"A painting in {request.style} style by {request.artist}"  # mock
+
+    logger.info(f"Caption generated: {caption[:80]}...")
+
+    # Step 2 — CLIP image embedding
+    vector = encode_image_from_url(request.image_url)
+
+    # Step 3 — Build metadata
+    metadata = ArtworkMetadata(
+        title=request.title,
+        artist=request.artist,
+        style=request.style,
+        year=request.year,
+        caption=caption,
+        image_url=request.image_url,
+        tags=request.tags,
+    )
+
+    # Step 4 — Upsert to Qdrant
+    upsert_artwork(
+        artwork_id=metadata.id,
+        vector=vector,
+        payload=metadata.model_dump(mode="json"),
+    )
+
+    logger.info(f"Ingestion complete. ID: {metadata.id}")
+    return IngestResponse(
+        success=True,
+        artwork_id=str(metadata.id),
+        message=f"'{request.title}' by {request.artist} ingested successfully.",
+    )
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\retrieval\retriever.py =====
+# backend/rag/retrieval/retriever.py
+
+from rag.schemas.models import (
+    RetrievalRequest,
+    RetrievalResponse,
+    RetrievedArtwork,
+)
+from rag.embeddings.clip_encoder import encode_text
+from rag.vectorstore.qdrant_client import search_artworks
+from rag.config import get_settings
+from rag.utils.logger import get_logger
+
+settings = get_settings()
+logger = get_logger(__name__)
+
+
+def retrieve_artworks(request: RetrievalRequest) -> RetrievalResponse:
+    """
+    Core RAG retrieval step:
+      1. Encode query text with CLIP
+      2. Search Qdrant for nearest artwork vectors
+      3. Parse and return ranked results
+
+    Args:
+        request: RetrievalRequest with query string and optional top_k override.
+
+    Returns:
+        RetrievalResponse with ranked list of RetrievedArtwork objects.
+    """
+    top_k = request.top_k or settings.TOP_K
+    logger.info(f"Retrieving top {top_k} artworks for query: '{request.query}'")
+
+    # Step 1 — Embed the text query
+    query_vector = encode_text(request.query)
+
+    # Step 2 — Search Qdrant
+    scored_points = search_artworks(query_vector=query_vector, top_k=top_k)
+
+    # Step 3 — Parse results
+    results: list[RetrievedArtwork] = []
+    for point in scored_points:
+        p = point.payload
+        results.append(
+            RetrievedArtwork(
+                artwork_id=str(point.id),
+                score=round(point.score, 4),
+                title=p.get("title", "Unknown"),
+                artist=p.get("artist", "Unknown"),
+                style=p.get("style", ""),
+                year=p.get("year"),
+                caption=p.get("caption", ""),
+                image_url=p.get("image_url", ""),
+                tags=p.get("tags", []),
+            )
+        )
+
+    logger.info(f"Retrieved {len(results)} artworks above score threshold")
+    return RetrievalResponse(
+        query=request.query,
+        results=results,
+        total_found=len(results),
+    )
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\schemas\models.py =====
+# backend/rag/schemas/models.py
+
+from pydantic import BaseModel, Field
+from typing import Optional
+from uuid import UUID, uuid4
+
+
+# ── Ingestion ──────────────────────────────────────────────────────────────
+
+class ArtworkMetadata(BaseModel):
+    """Metadata stored alongside each vector in Qdrant."""
+    id: UUID = Field(default_factory=uuid4)
+    title: str
+    artist: str
+    style: str                          # e.g. "Impressionism", "Surrealism"
+    year: Optional[int] = None
+    caption: str                        # BLIP-2 generated
+    image_url: str                      # Cloudflare R2 URL
+    tags: list[str] = []
+
+
+class IngestRequest(BaseModel):
+    image_url: str
+    title: str
+    artist: str
+    style: str
+    year: Optional[int] = None
+    tags: list[str] = []
+
+
+class IngestResponse(BaseModel):
+    success: bool
+    artwork_id: str
+    message: str
+
+
+# ── Retrieval ──────────────────────────────────────────────────────────────
+
+class RetrievalRequest(BaseModel):
+    query: str = Field(..., min_length=3, max_length=500,
+                       description="Natural language art style description")
+    top_k: Optional[int] = Field(default=None, ge=1, le=20)
+
+
+class RetrievedArtwork(BaseModel):
+    artwork_id: str
+    score: float
+    title: str
+    artist: str
+    style: str
+    year: Optional[int]
+    caption: str
+    image_url: str
+    tags: list[str]
+
+
+class RetrievalResponse(BaseModel):
+    query: str
+    results: list[RetrievedArtwork]
+    total_found: int
+
+
+# ── Pipeline ───────────────────────────────────────────────────────────────
+
+class PipelineRequest(BaseModel):
+    query: str = Field(..., min_length=3, max_length=500)
+    top_k: Optional[int] = 5
+
+
+class PipelineContext(BaseModel):
+    """Assembled context passed to the GAN generation step."""
+    query: str
+    artworks: list[RetrievedArtwork]
+    style_summary: str                  # combined caption text for conditioning
+    reference_image_urls: list[str]     # top image URLs for CLIP guidance
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\utils\logger.py =====
+# backend/rag/utils/logger.py
+
+import logging
+import sys
+from rag.config import get_settings
+
+settings = get_settings()
+
+
+def get_logger(name: str) -> logging.Logger:
+    logger = logging.getLogger(name)
+
+    if logger.handlers:
+        return logger  # avoid duplicate handlers on re-import
+
+    level = getattr(logging, settings.LOG_LEVEL.upper(), logging.INFO)
+    logger.setLevel(level)
+
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(level)
+
+    formatter = logging.Formatter(
+        fmt="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    return logger
+
+===== C:\Users\Jatin\Desktop\CAL AIML\artstudio\backend\rag\vectorstore\qdrant_client.py =====
+# backend/rag/vectorstore/qdrant_client.py
+
+from transformers.models.vitpose_backbone import configuration_vitpose_backbone
+from uuid import UUID
+from qdrant_client import QdrantClient
+from qdrant_client.models import (
+    Distance,
+    VectorParams,
+    PointStruct,
+    Filter,
+    FieldCondition,
+    MatchValue,
+    
+)
+from functools import lru_cache
+
+from rag.config import get_settings
+from rag.utils.logger import get_logger
+
+settings = get_settings()
+logger = get_logger(__name__)
+
+
+@lru_cache(maxsize=1)
+def _get_client() -> QdrantClient:
+    logger.info(f"Connecting to Qdrant at {settings.QDRANT_URL}")
+    return QdrantClient(
+        url=settings.QDRANT_URL,
+        api_key=settings.QDRANT_API_KEY,
+    )
+
+
+def ensure_collection_exists() -> None:
+    """
+    Create the artwork collection if it doesn't already exist.
+    Safe to call on every startup.
+    """
+    client = _get_client()
+    existing = [c.name for c in client.get_collections().collections]
+
+    if settings.QDRANT_COLLECTION not in existing:
+        client.create_collection(
+            collection_name=settings.QDRANT_COLLECTION,
+            vectors_config=VectorParams(
+                size=settings.QDRANT_VECTOR_SIZE,
+                distance=Distance.COSINE,
+            ),
+        )
+        logger.info(f"Created Qdrant collection: {settings.QDRANT_COLLECTION}")
+    else:
+        logger.info(f"Collection already exists: {settings.QDRANT_COLLECTION}")
+
+
+def upsert_artwork(
+    artwork_id: UUID,
+    vector: list[float],
+    payload: dict,
+) -> None:
+    """
+    Insert or update a single artwork vector + metadata payload.
+    """
+    client = _get_client()
+    point = PointStruct(
+        id=str(artwork_id),
+        vector=vector,
+        payload=payload,
+    )
+    client.upsert(
+        collection_name=settings.QDRANT_COLLECTION,
+        points=[point],
+    )
+    logger.info(f"Upserted artwork {artwork_id} into Qdrant")
+
+
+def search_artworks(
+    query_vector: list[float],
+    top_k: int,
+    style_filter: str | None = None,
+) -> list:
+    """
+    Search for similar artworks by vector similarity.
+    Optionally filter by exact style tag.
+    Returns a list of ScoredPoints (id, score, payload).
+    """
+    client = _get_client()
+
+    search_filter = None
+    if style_filter:
+        search_filter = Filter(
+            must=[FieldCondition(key="style", match=MatchValue(value=style_filter))]
+        )
+
+    results = client.query_points(
+        collection_name=settings.QDRANT_COLLECTION,
+        query=query_vector,
+        limit=top_k,
+        query_filter=search_filter,
+        score_threshold=settings.SCORE_THRESHOLD,
+        with_payload=True,
+    ).points
+
+    logger.info(f"Qdrant search returned {len(results)} results (top_k={top_k})")
+    return results
+
+
+def delete_artwork(artwork_id: str) -> None:
+    client = _get_client()
+    client.delete(
+        collection_name=settings.QDRANT_COLLECTION,
+        points_selector=[artwork_id],
+    )
+    logger.info(f"Deleted artwork {artwork_id} from Qdrant")
+
+
+def get_collection_info() -> dict:
+    client = _get_client()
+    info = client.get_collection(settings.QDRANT_COLLECTION)
+    return {
+        "name": settings.QDRANT_COLLECTION,
+        "vectors_count": info.vectors_count,
+        "points_count": info.points_count,
+        "status": str(info.status),
+    }
 

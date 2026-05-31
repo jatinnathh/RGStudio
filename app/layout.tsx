@@ -25,7 +25,7 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Art Studio — Intelligent Business Automation",
+  title: "Art Studio",
   description:
     "Effortless growth operations. Our SaaS platform takes over exhausting operational activities, complex analytics, and tedious process management so you can focus on what matters.",
   keywords: [

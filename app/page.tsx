@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useCallback } from "react";
 
@@ -76,7 +76,7 @@ function DetectionBox({
   style: React.CSSProperties;
   animDelay?: string;
   size?: "sm" | "md" | "lg";
-  displayImgRef: React.RefObject<HTMLImageElement>;
+  displayImgRef: React.RefObject<HTMLImageElement | null>;
 }) {
   const swatchRef = useRef<HTMLCanvasElement>(null);
   const swatchPx = size === "lg" ? 48 : 40;
@@ -552,8 +552,8 @@ function ScrollVideoHero() {
    SECTION 2 — unchanged from your original
    ═══════════════════════════════════════════════════ */
 function usePixelSwatch(
-  swatchRef: React.RefObject<HTMLCanvasElement>,
-  paintingRef: React.RefObject<HTMLImageElement>,
+  swatchRef: React.RefObject<HTMLCanvasElement | null>,
+  paintingRef: React.RefObject<HTMLImageElement | null>,
   gridCells: number = 4
 ) {
   const draw = useCallback(() => {
@@ -581,7 +581,7 @@ function StaticDetectionBox({
   value, style, animDelay = "0s", size = "sm", paintingRef,
 }: {
   value: string; style: React.CSSProperties; animDelay?: string;
-  size?: "sm" | "md" | "lg"; paintingRef: React.RefObject<HTMLImageElement>;
+  size?: "sm" | "md" | "lg"; paintingRef: React.RefObject<HTMLImageElement | null>;
 }) {
   const swatchRef = useRef<HTMLCanvasElement>(null);
   const swatchPx = size === "lg" ? 48 : 40;

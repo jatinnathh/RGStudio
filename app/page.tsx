@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useCallback } from "react";
 
@@ -689,7 +689,7 @@ export default function Home() {
         <div data-animate style={{ opacity: 0 }}><MonogramLogo size={42} /></div>
 
         <p data-animate style={{ opacity: 0, fontSize: "11px", letterSpacing: "0.22em", color: "rgba(255,255,255,0.75)", maxWidth: "26rem", lineHeight: 1.8, textTransform: "uppercase", fontWeight: 500, marginTop: "1.75rem" }}>
-          We built this platform with a single purpose to eliminate operational chaos and restore balance to your daily business routine
+          WE BUILT THIS STUDIO WITH A SINGLE CONVICTION — THAT LANGUAGE AND VISION BELONG IN THE SAME CREATIVE LOOP
         </p>
 
         <p data-animate style={{ opacity: 0, fontSize: "clamp(4rem, 8vw, 6.5rem)", fontWeight: 700, color: "white", margin: "1.75rem 0", lineHeight: 1.05, fontStyle: "italic", letterSpacing: "-0.02em", textShadow: "0 2px 20px rgba(0,0,0,0.2)" }}>
@@ -698,11 +698,11 @@ export default function Home() {
 
         <div data-animate style={{ opacity: 0, maxWidth: "26rem", margin: "0 auto" }}>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", lineHeight: 1.8, textAlign: "center", fontWeight: 300, marginBottom: "1.25rem" }}>
-            I was exhausted by software that demanded more effort than it actually saved. That is why we engineered an autonomous architecture that operates silently in the background.
+            I was exhausted by generative tools that demanded technical fluency before they gave you beauty. Prompt engineers, not artists, were the gatekeepers.
+
           </p>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", lineHeight: 1.8, textAlign: "center", fontWeight: 300 }}>
-            Your business should serve your life, not consume it. Let our algorithms handle the heavy lifting, so you can focus on the vision.
-          </p>
+            That is why we built a pipeline where your words do the thinking. RAG retrieves the references. CLIP guides the generation. The GAN paints. You just describe what you see in your mind.          </p>
         </div>
 
         <div data-animate style={{ opacity: 0, position: "relative", width: "100%", maxWidth: "900px", margin: "3.5rem auto 0", borderRadius: "1rem", overflow: "hidden", boxShadow: "0 24px 70px rgba(0,0,0,0.55)" }}>

@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, Html, useProgress } from "@react-three/drei";
 import * as THREE from "three";
 import Lenis from "lenis";
+import HeroText from "./HeroText";
 
 function Loader() {
   const { progress } = useProgress();
@@ -212,6 +213,12 @@ export default function ArtCanvas() {
 
       {/* Sticky 3D Viewport */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden z-10">
+        
+        {/* Hero Text Behind the 3D Scene */}
+        <div className="absolute top-[12%] w-full z-0 pointer-events-none">
+          <HeroText text="RGSTUDIO" />
+        </div>
+
         <Canvas
           camera={{ fov: 45, near: 0.1, far: 2000 }}
           gl={{
@@ -220,7 +227,7 @@ export default function ArtCanvas() {
             toneMapping: THREE.ACESFilmicToneMapping,
             toneMappingExposure: 1.15,
           }}
-          className="w-full h-full"
+          className="w-full h-full relative z-10"
         >
           {/* Sunset Lighting */}
           <ambientLight intensity={2.0} color="#fff2e6" />

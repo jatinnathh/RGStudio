@@ -216,7 +216,7 @@ export default function ArtCanvas() {
         
         {/* Hero Text Behind the 3D Scene */}
         <div className="absolute top-[12%] w-full z-0 pointer-events-none">
-          <HeroText text="RGSTUDIO" />
+          <HeroText text="RGSTUDIO" color="#ffffffff"/>
         </div>
 
         <Canvas

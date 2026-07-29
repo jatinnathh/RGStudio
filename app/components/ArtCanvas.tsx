@@ -79,27 +79,27 @@ function FirewatchModel({
 
     const span = Math.max(sceneSize.x, sceneSize.y);
 
-    // Initial Wide Angle View (Matches User Reference Image 1)
+    // Initial Wide Angle View — lower and closer
     const startPos = new THREE.Vector3(
       towerCenter.x,
-      towerCenter.y + span * 0.025,
-      towerCenter.z + span * 0.52
+      towerCenter.y - span * 0.02,
+      towerCenter.z + span * 0.23
     );
     const startTarget = new THREE.Vector3(
       towerCenter.x,
-      towerCenter.y - span * 0.02,
+      towerCenter.y - span * 0.04,
       towerCenter.z
     );
 
-    // Final Zoomed-In View (Matches User Reference Image 2)
+    // Final Zoomed-In View — at eye level, tight on the tower
     const endPos = new THREE.Vector3(
       towerCenter.x,
-      towerCenter.y - span * 0.005,
-      towerCenter.z + span * 0.11
+      towerCenter.y - span * 0.06,
+      towerCenter.z + span * 0.035
     );
     const endTarget = new THREE.Vector3(
-      towerCenter.x,
-      towerCenter.y + span * 0.01,
+      towerCenter.x + span * 0.015, // Look slightly right so tower goes left
+      towerCenter.y - span * 0.06,
       towerCenter.z
     );
 
@@ -200,7 +200,7 @@ export default function ArtCanvas() {
   }
 
   return (
-    <div className="relative w-full h-[400vh] bg-[#2a0729]">
+    <div className="relative w-full h-[600vh] bg-[#2a0729]">
       {/* Sunset Background Gradient matching user's reference images */}
       <div
         className="fixed inset-0 pointer-events-none z-0"

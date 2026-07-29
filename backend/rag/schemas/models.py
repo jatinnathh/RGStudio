@@ -73,3 +73,41 @@ class PipelineContext(BaseModel):
     artworks: list[RetrievedArtwork]
     style_summary: str                  # combined caption text for conditioning
     reference_image_urls: list[str]     # top image URLs for CLIP guidance
+
+
+# ── Generation ─────────────────────────────────────────────────────────────
+
+class GenerateRequest(BaseModel):
+    """Request body for text-to-art generation."""
+    query: str = Field(..., min_length=3, max_length=500,
+                       description="Natural language art style description")
+    top_k: int = Field(default=5, ge=1, le=20,
+                       description="Number of style references to retrieve")
+    style_weight: float = Field(default=0.8, ge=0.0, le=1.0,
+                                description="Style strength: 0.0=content, 1.0=full style")
+    output_size: int = Field(default=512, ge=128, le=1024,
+                             description="Output image resolution (square)")
+    use_multi_style: bool = Field(default=False,
+                                  description="Blend multiple style references")
+
+
+class GenerateResponse(BaseModel):
+    """Response body for art generation."""
+    success: bool
+    image_base64: str                    # base64-encoded JPEG
+    style_reference: Optional[RetrievedArtwork] = None  # which artwork was used
+    clip_score: float = 0.0              # CLIP similarity score
+    generation_time_ms: int
+    query: str
+    message: str
+
+
+class StyleTransferResponse(BaseModel):
+    """Response body for style transfer (image upload)."""
+    success: bool
+    image_base64: str                    # base64-encoded JPEG
+    style_reference: Optional[RetrievedArtwork] = None
+    clip_score: float = 0.0
+    generation_time_ms: int
+    style_query: str
+    message: str

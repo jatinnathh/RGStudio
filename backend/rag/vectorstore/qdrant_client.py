@@ -1,6 +1,5 @@
 # backend/rag/vectorstore/qdrant_client.py
 
-from transformers.models.vitpose_backbone import configuration_vitpose_backbone
 from uuid import UUID
 from qdrant_client import QdrantClient
 from qdrant_client.models import (

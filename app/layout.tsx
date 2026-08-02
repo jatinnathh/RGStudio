@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, DM_Sans, Dancing_Script } from "next/font/google";
 import "./globals.css";
+import { PageVisit } from "./components/PageVisit";
 
 const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
@@ -25,15 +26,17 @@ const dancingScript = Dancing_Script({
 });
 
 export const metadata: Metadata = {
-  title: "Art Studio",
+  title: "RGStudio — RAG-Powered GAN Art Studio",
   description:
-    "Effortless growth operations. Our SaaS platform takes over exhausting operational activities, complex analytics, and tedious process management so you can focus on what matters.",
+    "Describe an art style, RAG retrieves reference images + artist context, CLIP-guided GAN generates new artwork in that style. Two systems, one seamless pipeline.",
   keywords: [
-    "Business Automation",
-    "SaaS",
-    "AI Operations",
-    "Growth Platform",
-    "Art Studio",
+    "AI Art",
+    "Style Transfer",
+    "RAG",
+    "GAN",
+    "CLIP",
+    "Art Generation",
+    "RGStudio",
   ],
 };
 
@@ -47,7 +50,10 @@ export default function RootLayout({
       lang="en"
       className={`${playfairDisplay.variable} ${dmSans.variable} ${dancingScript.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <PageVisit />
+        {children}
+      </body>
     </html>
   );
 }

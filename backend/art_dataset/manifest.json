@@ -1,0 +1,349 @@
+{
+  "total": 61,
+  "success": 56,
+  "failed": [
+    "Black Square",
+    "Number 1A",
+    "Metropolis Film Poster",
+    "Abstract Speed + Sound",
+    "Pilgrimage to Cythera"
+  ],
+  "artworks": [
+    {
+      "title": "Water Lilies",
+      "artist": "Claude Monet",
+      "style": "Impressionism",
+      "image_path": "claude_monet/water_lilies.jpg"
+    },
+    {
+      "title": "Impression, Sunrise",
+      "artist": "Claude Monet",
+      "style": "Impressionism",
+      "image_path": "claude_monet/impression_sunrise.jpg"
+    },
+    {
+      "title": "Dance at Le Moulin de la Galette",
+      "artist": "Pierre-Auguste Renoir",
+      "style": "Impressionism",
+      "image_path": "pierre-auguste_renoir/dance_at_le_moulin_de_la_galette.jpg"
+    },
+    {
+      "title": "The Luncheon of the Boating Party",
+      "artist": "Pierre-Auguste Renoir",
+      "style": "Impressionism",
+      "image_path": "pierre-auguste_renoir/the_luncheon_of_the_boating_party.jpg"
+    },
+    {
+      "title": "A Sunday Afternoon on the Island of La Grande Jatte",
+      "artist": "Georges Seurat",
+      "style": "Impressionism",
+      "image_path": "georges_seurat/a_sunday_afternoon_on_the_island_of_la_grande_jatte.jpg"
+    },
+    {
+      "title": "The Ballet Class",
+      "artist": "Edgar Degas",
+      "style": "Impressionism",
+      "image_path": "edgar_degas/the_ballet_class.jpg"
+    },
+    {
+      "title": "The Starry Night",
+      "artist": "Vincent van Gogh",
+      "style": "Post-Impressionism",
+      "image_path": "vincent_van_gogh/the_starry_night.jpg"
+    },
+    {
+      "title": "Cafe Terrace at Night",
+      "artist": "Vincent van Gogh",
+      "style": "Post-Impressionism",
+      "image_path": "vincent_van_gogh/cafe_terrace_at_night.jpg"
+    },
+    {
+      "title": "Sunflowers",
+      "artist": "Vincent van Gogh",
+      "style": "Post-Impressionism",
+      "image_path": "vincent_van_gogh/sunflowers.jpg"
+    },
+    {
+      "title": "Mont Sainte-Victoire",
+      "artist": "Paul Cezanne",
+      "style": "Post-Impressionism",
+      "image_path": "paul_cezanne/mont_sainte-victoire.jpg"
+    },
+    {
+      "title": "Where Do We Come From",
+      "artist": "Paul Gauguin",
+      "style": "Post-Impressionism",
+      "image_path": "paul_gauguin/where_do_we_come_from.jpg"
+    },
+    {
+      "title": "Mona Lisa",
+      "artist": "Leonardo da Vinci",
+      "style": "Renaissance",
+      "image_path": "leonardo_da_vinci/mona_lisa.jpg"
+    },
+    {
+      "title": "The Birth of Venus",
+      "artist": "Sandro Botticelli",
+      "style": "Renaissance",
+      "image_path": "sandro_botticelli/the_birth_of_venus.jpg"
+    },
+    {
+      "title": "The Creation of Adam",
+      "artist": "Michelangelo",
+      "style": "Renaissance",
+      "image_path": "michelangelo/the_creation_of_adam.jpg"
+    },
+    {
+      "title": "The School of Athens",
+      "artist": "Raphael",
+      "style": "Renaissance",
+      "image_path": "raphael/the_school_of_athens.jpg"
+    },
+    {
+      "title": "The Last Supper",
+      "artist": "Leonardo da Vinci",
+      "style": "Renaissance",
+      "image_path": "leonardo_da_vinci/the_last_supper.jpg"
+    },
+    {
+      "title": "Girl with a Pearl Earring",
+      "artist": "Johannes Vermeer",
+      "style": "Baroque",
+      "image_path": "johannes_vermeer/girl_with_a_pearl_earring.jpg"
+    },
+    {
+      "title": "The Night Watch",
+      "artist": "Rembrandt",
+      "style": "Baroque",
+      "image_path": "rembrandt/the_night_watch.jpg"
+    },
+    {
+      "title": "The Calling of Saint Matthew",
+      "artist": "Caravaggio",
+      "style": "Baroque",
+      "image_path": "caravaggio/the_calling_of_saint_matthew.jpg"
+    },
+    {
+      "title": "Las Meninas",
+      "artist": "Diego Velazquez",
+      "style": "Baroque",
+      "image_path": "diego_velazquez/las_meninas.jpg"
+    },
+    {
+      "title": "Wanderer above the Sea of Fog",
+      "artist": "Caspar David Friedrich",
+      "style": "Romanticism",
+      "image_path": "caspar_david_friedrich/wanderer_above_the_sea_of_fog.jpg"
+    },
+    {
+      "title": "Liberty Leading the People",
+      "artist": "Eugene Delacroix",
+      "style": "Romanticism",
+      "image_path": "eugene_delacroix/liberty_leading_the_people.jpg"
+    },
+    {
+      "title": "The Fighting Temeraire",
+      "artist": "J.M.W. Turner",
+      "style": "Romanticism",
+      "image_path": "jmw_turner/the_fighting_temeraire.jpg"
+    },
+    {
+      "title": "Saturn Devouring His Son",
+      "artist": "Francisco Goya",
+      "style": "Romanticism",
+      "image_path": "francisco_goya/saturn_devouring_his_son.jpg"
+    },
+    {
+      "title": "American Gothic",
+      "artist": "Grant Wood",
+      "style": "Realism",
+      "image_path": "grant_wood/american_gothic.jpg"
+    },
+    {
+      "title": "Nighthawks",
+      "artist": "Edward Hopper",
+      "style": "Realism",
+      "image_path": "edward_hopper/nighthawks.jpg"
+    },
+    {
+      "title": "The Gleaners",
+      "artist": "Jean-Francois Millet",
+      "style": "Realism",
+      "image_path": "jean-francois_millet/the_gleaners.jpg"
+    },
+    {
+      "title": "The Scream",
+      "artist": "Edvard Munch",
+      "style": "Expressionism",
+      "image_path": "edvard_munch/the_scream.jpg"
+    },
+    {
+      "title": "Portrait of Dr. Gachet",
+      "artist": "Vincent van Gogh",
+      "style": "Expressionism",
+      "image_path": "vincent_van_gogh/portrait_of_dr_gachet.jpg"
+    },
+    {
+      "title": "The Large Blue Horses",
+      "artist": "Franz Marc",
+      "style": "Expressionism",
+      "image_path": "franz_marc/the_large_blue_horses.jpg"
+    },
+    {
+      "title": "The Kiss",
+      "artist": "Gustav Klimt",
+      "style": "Art Nouveau",
+      "image_path": "gustav_klimt/the_kiss.jpg"
+    },
+    {
+      "title": "Les Demoiselles d'Avignon",
+      "artist": "Pablo Picasso",
+      "style": "Cubism",
+      "image_path": "pablo_picasso/les_demoiselles_davignon.jpg"
+    },
+    {
+      "title": "Guernica",
+      "artist": "Pablo Picasso",
+      "style": "Cubism",
+      "image_path": "pablo_picasso/guernica.jpg"
+    },
+    {
+      "title": "Man with a Guitar",
+      "artist": "Georges Braque",
+      "style": "Cubism",
+      "image_path": "georges_braque/man_with_a_guitar.jpg"
+    },
+    {
+      "title": "The Persistence of Memory",
+      "artist": "Salvador Dali",
+      "style": "Surrealism",
+      "image_path": "salvador_dali/the_persistence_of_memory.jpg"
+    },
+    {
+      "title": "The Son of Man",
+      "artist": "Rene Magritte",
+      "style": "Surrealism",
+      "image_path": "rene_magritte/the_son_of_man.jpg"
+    },
+    {
+      "title": "The Treachery of Images",
+      "artist": "Rene Magritte",
+      "style": "Surrealism",
+      "image_path": "rene_magritte/the_treachery_of_images.jpg"
+    },
+    {
+      "title": "I and the Village",
+      "artist": "Marc Chagall",
+      "style": "Surrealism",
+      "image_path": "marc_chagall/i_and_the_village.jpg"
+    },
+    {
+      "title": "Composition VIII",
+      "artist": "Wassily Kandinsky",
+      "style": "Abstract",
+      "image_path": "wassily_kandinsky/composition_viii.jpg"
+    },
+    {
+      "title": "Broadway Boogie Woogie",
+      "artist": "Piet Mondrian",
+      "style": "De Stijl",
+      "image_path": "piet_mondrian/broadway_boogie_woogie.jpg"
+    },
+    {
+      "title": "Campbell's Soup Cans",
+      "artist": "Andy Warhol",
+      "style": "Pop Art",
+      "image_path": "andy_warhol/campbells_soup_cans.jpg"
+    },
+    {
+      "title": "Whaam!",
+      "artist": "Roy Lichtenstein",
+      "style": "Pop Art",
+      "image_path": "roy_lichtenstein/whaam.jpg"
+    },
+    {
+      "title": "Marilyn Diptych",
+      "artist": "Andy Warhol",
+      "style": "Pop Art",
+      "image_path": "andy_warhol/marilyn_diptych.jpg"
+    },
+    {
+      "title": "The Great Wave off Kanagawa",
+      "artist": "Katsushika Hokusai",
+      "style": "Ukiyo-e",
+      "image_path": "katsushika_hokusai/the_great_wave_off_kanagawa.jpg"
+    },
+    {
+      "title": "Fine Wind, Clear Morning",
+      "artist": "Katsushika Hokusai",
+      "style": "Ukiyo-e",
+      "image_path": "katsushika_hokusai/fine_wind_clear_morning.jpg"
+    },
+    {
+      "title": "Sudden Shower over Shin-Ohashi Bridge",
+      "artist": "Utagawa Hiroshige",
+      "style": "Ukiyo-e",
+      "image_path": "utagawa_hiroshige/sudden_shower_over_shin-ohashi_bridge.jpg"
+    },
+    {
+      "title": "Napoleon Crossing the Alps",
+      "artist": "Jacques-Louis David",
+      "style": "Neoclassicism",
+      "image_path": "jacques-louis_david/napoleon_crossing_the_alps.jpg"
+    },
+    {
+      "title": "Oath of the Horatii",
+      "artist": "Jacques-Louis David",
+      "style": "Neoclassicism",
+      "image_path": "jacques-louis_david/oath_of_the_horatii.jpg"
+    },
+    {
+      "title": "Psyche Revived by Cupid's Kiss",
+      "artist": "Antonio Canova",
+      "style": "Neoclassicism",
+      "image_path": "antonio_canova/psyche_revived_by_cupids_kiss.jpg"
+    },
+    {
+      "title": "Ophelia",
+      "artist": "John Everett Millais",
+      "style": "Symbolism",
+      "image_path": "john_everett_millais/ophelia.jpg"
+    },
+    {
+      "title": "The Isle of the Dead",
+      "artist": "Arnold Bocklin",
+      "style": "Symbolism",
+      "image_path": "arnold_bocklin/the_isle_of_the_dead.jpg"
+    },
+    {
+      "title": "Portrait of Adele Bloch-Bauer I",
+      "artist": "Gustav Klimt",
+      "style": "Art Nouveau",
+      "image_path": "gustav_klimt/portrait_of_adele_bloch-bauer_i.jpg"
+    },
+    {
+      "title": "The Beethoven Frieze",
+      "artist": "Gustav Klimt",
+      "style": "Art Nouveau",
+      "image_path": "gustav_klimt/the_beethoven_frieze.jpg"
+    },
+    {
+      "title": "We Can Do It",
+      "artist": "J. Howard Miller",
+      "style": "Propaganda Poster",
+      "image_path": "j_howard_miller/we_can_do_it.jpg"
+    },
+    {
+      "title": "The City Rises",
+      "artist": "Umberto Boccioni",
+      "style": "Futurism",
+      "image_path": "umberto_boccioni/the_city_rises.jpg"
+    },
+    {
+      "title": "The Swing",
+      "artist": "Jean-Honore Fragonard",
+      "style": "Rococo",
+      "image_path": "jean-honore_fragonard/the_swing.jpg"
+    }
+  ]
+}

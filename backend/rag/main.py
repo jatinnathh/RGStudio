@@ -1,12 +1,19 @@
 # backend/rag/main.py
 
 from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from rag.config import get_settings
 from rag.utils.logger import get_logger
-from rag.vectorstore.qdrant_client import ensure_collection_exists, get_collection_info
+from rag.vectorstore.qdrant_client import (
+    ensure_collection_exists,
+    get_collection_info,
+    get_unique_styles,
+    scroll_all_artworks,
+)
 from rag.schemas.models import (
     IngestRequest, IngestResponse,
     RetrievalRequest, RetrievalResponse,
@@ -52,6 +59,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ── Serve art_dataset/ as /images/ (local-first RAG architecture) ─────────
+ART_DATASET_DIR = Path(__file__).resolve().parent.parent / "art_dataset"
+ART_DATASET_DIR.mkdir(exist_ok=True)
+app.mount("/images", StaticFiles(directory=str(ART_DATASET_DIR)), name="art_images")
+
 
 # ── Health ────────────────────────────────────────────────────────────────
 
@@ -68,6 +80,35 @@ def qdrant_health():
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Qdrant unreachable: {str(e)}")
 
+
+# ── Gallery & Styles ──────────────────────────────────────────────────────
+
+@app.get("/styles", tags=["Gallery"])
+def list_styles():
+    """
+    Get all unique art styles in the database with counts and sample images.
+    Useful for style browsing and the gallery filter UI.
+    """
+    try:
+        styles = get_unique_styles()
+        return {"styles": styles, "total": len(styles)}
+    except Exception as e:
+        logger.error(f"Styles listing failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/gallery", tags=["Gallery"])
+def gallery(limit: int = 100):
+    """
+    Get all artworks for the gallery view.
+    Returns metadata without vectors.
+    """
+    try:
+        artworks = scroll_all_artworks(limit=limit)
+        return {"artworks": artworks, "total": len(artworks)}
+    except Exception as e:
+        logger.error(f"Gallery listing failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ── Ingestion ─────────────────────────────────────────────────────────────
 

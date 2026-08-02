@@ -88,46 +88,62 @@ class AdaINDecoder(nn.Module):
 
 
 # Pre-trained decoder weights URL (trained to invert VGG19 features)
-# This is the standard AdaIN decoder from Huang & Belongie (2017)
-DECODER_WEIGHTS_URL = "https://huggingface.co/merve/adain-style-transfer/resolve/main/decoder.pth"
+DECODER_WEIGHTS_URL = "https://github.com/naoto0804/pytorch-AdaIN/releases/download/v0.0.0/decoder.pth"
 
 
 @lru_cache(maxsize=1)
 def get_decoder(device: str = "cpu") -> AdaINDecoder:
     """
     Get or create cached AdaIN decoder.
-    
-    Attempts to load pretrained weights from HuggingFace.
-    Falls back to random initialization if download fails
-    (results will be lower quality but still functional).
+    Attempts to load pretrained weights from local cache or official release.
     """
+    from pathlib import Path
+    import requests
+
     decoder = AdaINDecoder()
 
-    try:
-        import requests
-        from io import BytesIO
+    # Local weights cache path
+    weights_dir = Path(__file__).resolve().parent / "weights"
+    weights_dir.mkdir(exist_ok=True)
+    local_weights_file = weights_dir / "decoder.pth"
 
-        logger.info("Downloading pretrained AdaIN decoder weights from HuggingFace...")
-        response = requests.get(DECODER_WEIGHTS_URL, timeout=30)
-        response.raise_for_status()
+    state_dict = None
 
-        state_dict = torch.load(
-            BytesIO(response.content),
-            map_location=device,
-            weights_only=True,
-        )
+    if local_weights_file.exists():
+        logger.info(f"Loading cached AdaIN decoder weights from {local_weights_file}")
+        try:
+            state_dict = torch.load(local_weights_file, map_location=device, weights_only=True)
+        except Exception as e:
+            logger.warning(f"Failed to read local decoder weights: {e}")
 
-        # The pretrained weights may use different key naming.
-        # Try direct load first, then try with key mapping.
+    if state_dict is None:
+        try:
+            logger.info("Downloading pretrained AdaIN decoder weights...")
+            response = requests.get(
+                DECODER_WEIGHTS_URL,
+                headers={"User-Agent": "Mozilla/5.0"},
+                timeout=30,
+                allow_redirects=True,
+            )
+            response.raise_for_status()
+
+            # Save locally for future instant loads
+            with open(local_weights_file, "wb") as f:
+                f.write(response.content)
+
+            logger.info(f"Saved AdaIN decoder weights to {local_weights_file}")
+            state_dict = torch.load(local_weights_file, map_location=device, weights_only=True)
+        except Exception as e:
+            logger.warning(f"Could not download pretrained decoder: {e}. Using random init.")
+
+    if state_dict is not None:
         try:
             decoder.load_state_dict(state_dict)
             logger.info("Loaded pretrained decoder weights (direct match)")
         except RuntimeError:
-            # Map keys: some checkpoints use flat numbering
             new_state = {}
             decoder_keys = list(decoder.state_dict().keys())
             weight_keys = list(state_dict.keys())
-
             if len(decoder_keys) == len(weight_keys):
                 for dk, wk in zip(decoder_keys, weight_keys):
                     new_state[dk] = state_dict[wk]
@@ -138,9 +154,6 @@ def get_decoder(device: str = "cpu") -> AdaINDecoder:
                     f"Key count mismatch: decoder={len(decoder_keys)}, "
                     f"weights={len(weight_keys)}. Using random init."
                 )
-
-    except Exception as e:
-        logger.warning(f"Could not load pretrained decoder: {e}. Using random init.")
 
     decoder = decoder.eval().to(device)
 

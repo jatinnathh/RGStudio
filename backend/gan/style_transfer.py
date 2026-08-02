@@ -112,7 +112,7 @@ def style_transfer(
     # Convert tensor → PIL
     result = tensor_to_pil(output_tensor)
 
-    logger.info(f"Style transfer complete → {result.size}")
+    logger.info(f"Style transfer complete -> {result.size}")
     return result
 
 
@@ -180,5 +180,5 @@ def multi_style_transfer(
         output_tensor = decoder(blended)
 
     result = tensor_to_pil(output_tensor)
-    logger.info(f"Multi-style transfer ({len(style_images)} styles) → {result.size}")
+    logger.info(f"Multi-style transfer ({len(style_images)} styles) -> {result.size}")
     return result

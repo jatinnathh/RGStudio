@@ -6,6 +6,8 @@ import { useGLTF, Html, useProgress } from "@react-three/drei";
 import * as THREE from "three";
 import Lenis from "lenis";
 import HeroText from "./HeroText";
+import { PopButton } from "./ui/pop-button";
+import { useRouter } from "next/navigation";
 
 function Loader() {
   const { progress } = useProgress();
@@ -155,6 +157,7 @@ function FirewatchModel({
 export default function ArtCanvas() {
   const [mounted, setMounted] = useState(false);
   const scrollProgress = useRef(0);
+  const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
@@ -213,10 +216,10 @@ export default function ArtCanvas() {
 
       {/* Sticky 3D Viewport */}
       <div className="sticky top-0 left-0 w-full h-screen overflow-hidden z-10">
-        
+
         {/* Hero Text Behind the 3D Scene */}
         <div className="absolute top-[12%] w-full z-0 pointer-events-none">
-          <HeroText text="RGSTUDIO" color="#ffffffff"/>
+          <HeroText text="RGSTUDIO" color="#ffffffff" />
         </div>
 
         <Canvas
@@ -268,8 +271,14 @@ export default function ArtCanvas() {
           </div>
         </div>
       </div>
+
+      {/* End of Scroll Action */}
+      {/* End of Scroll Action */}
+      <div className="absolute bottom-[35vh] right-10 z-30 pointer-events-auto">
+        <PopButton onClick={() => { router.push("/home") }}>Continue to Dashboard</PopButton>
+      </div>
     </div>
-  );
+  ); ``
 }
 
 useGLTF.preload("/art.glb");

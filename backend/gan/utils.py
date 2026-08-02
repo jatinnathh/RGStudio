@@ -52,9 +52,25 @@ def tensor_to_pil(tensor: torch.Tensor) -> Image.Image:
 
 def load_image_from_url(url: str, max_bytes: int = 10 * 1024 * 1024) -> Image.Image:
     """
-    Download an image from a URL and return as PIL Image.
-    Caps download at `max_bytes` (default 10MB).
+    Download or load an image from URL or local /images/ path, returning a PIL Image.
+    Caps image dimensions to avoid OOM.
     """
+    from pathlib import Path
+
+    if url.startswith("/images/"):
+        relative = url.replace("/images/", "")
+        backend_dir = Path(__file__).resolve().parent.parent
+        local_file = backend_dir / "art_dataset" / relative
+        if local_file.exists():
+            logger.debug(f"Loading local reference image from disk: {local_file}")
+            image = Image.open(local_file).convert("RGB")
+            max_dim = settings.MAX_IMAGE_SIZE
+            if max(image.size) > max_dim:
+                image.thumbnail((max_dim, max_dim), Image.LANCZOS)
+            return image
+        else:
+            logger.warning(f"Local image file not found at {local_file}")
+
     logger.debug(f"Downloading image from: {url[:80]}...")
 
     response = requests.get(

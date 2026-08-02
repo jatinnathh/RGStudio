@@ -50,6 +50,18 @@ def ensure_collection_exists() -> None:
         logger.info(f"Collection already exists: {settings.QDRANT_COLLECTION}")
 
 
+def recreate_collection() -> None:
+    """
+    Delete and recreate the Qdrant collection to clear all stale points.
+    """
+    client = _get_client()
+    existing = [c.name for c in client.get_collections().collections]
+    if settings.QDRANT_COLLECTION in existing:
+        client.delete_collection(settings.QDRANT_COLLECTION)
+        logger.info(f"Deleted old Qdrant collection: {settings.QDRANT_COLLECTION}")
+    ensure_collection_exists()
+
+
 def upsert_artwork(
     artwork_id: UUID,
     vector: list[float],
@@ -120,3 +132,47 @@ def get_collection_info() -> dict:
         "points_count": info.points_count,
         "status": str(info.status),
     }
+
+
+def scroll_all_artworks(limit: int = 100) -> list[dict]:
+    """
+    Scroll through all artworks in the collection.
+    Returns a list of payload dicts (no vectors).
+    """
+    client = _get_client()
+    results = client.scroll(
+        collection_name=settings.QDRANT_COLLECTION,
+        limit=limit,
+        with_payload=True,
+        with_vectors=False,
+    )
+    points = results[0]  # (points, next_offset)
+    return [
+        {"id": str(p.id), **p.payload}
+        for p in points
+    ]
+
+
+def get_unique_styles() -> list[dict]:
+    """
+    Get all unique art styles with counts from the collection.
+    Returns a sorted list of {style, count, sample_image_url, sample_artist}.
+    """
+    all_artworks = scroll_all_artworks(limit=500)
+    style_map: dict[str, dict] = {}
+
+    for art in all_artworks:
+        style = art.get("style", "Unknown")
+        if style not in style_map:
+            style_map[style] = {
+                "style": style,
+                "count": 0,
+                "sample_image_url": art.get("image_url", ""),
+                "sample_artist": art.get("artist", "Unknown"),
+                "sample_title": art.get("title", ""),
+            }
+        style_map[style]["count"] += 1
+
+    styles = sorted(style_map.values(), key=lambda x: -x["count"])
+    logger.info(f"Found {len(styles)} unique styles across {len(all_artworks)} artworks")
+    return styles

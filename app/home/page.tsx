@@ -5,7 +5,6 @@ import { FormEvent, useCallback, useMemo, useRef, useState } from "react";
 import {
   api,
   resolveImageUrl,
-  type RetrievedArtwork,
   type RetrievalResponse,
   type GenerateResponse,
   type StyleTransferResponse,
@@ -42,7 +41,7 @@ export default function StudioHome() {
   const [error, setError] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const results = ragResponse?.results ?? [];
+  const results = useMemo(() => ragResponse?.results ?? [], [ragResponse]);
   const topResult = results[0] ?? null;
 
   const stylePrompt = useMemo(

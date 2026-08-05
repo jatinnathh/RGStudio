@@ -1,6 +1,7 @@
 # backend/seed_100_styles.py
-# -*- coding: utf-8 -*-
-import sys, io
+import io
+import sys
+
 # Force UTF-8 stdout so Unicode chars don't crash on Windows cp1252
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
@@ -15,10 +16,11 @@ else:
 # Includes retry + exponential backoff for Wikimedia rate limits.
 
 import time
+
 from rag.ingestion.ingestor import ingest_artwork
 from rag.schemas.models import IngestRequest
-from rag.vectorstore.qdrant_client import ensure_collection_exists
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import ensure_collection_exists
 
 logger = get_logger(__name__)
 
@@ -825,8 +827,6 @@ RETRY_BACKOFF = [10, 30, 60] # seconds for 1st / 2nd / 3rd retry
 
 def ingest_with_retry(art: dict, index: int, total: int) -> bool:
     """Attempt to ingest an artwork, retrying on transient errors."""
-    title = art["title"]
-
     for attempt in range(MAX_RETRIES + 1):
         try:
             if attempt > 0:
@@ -853,7 +853,7 @@ def ingest_with_retry(art: dict, index: int, total: int) -> bool:
                 print(f"         [SKIP] {exc.__class__.__name__}: {msg[:100]}")
                 return False
             elif is_rate_limit and attempt < MAX_RETRIES:
-                print(f"         [429] Rate limited, will retry ...")
+                print("         [429] Rate limited, will retry ...")
                 continue
             else:
                 print(f"         [ERR] [{exc.__class__.__name__}] {msg[:120]}")
@@ -875,8 +875,8 @@ def main() -> None:
 
     print(f"\n{'='*64}")
     print(f"  RGStudio - Seeding {total} artworks into Qdrant")
-    print(f"  Movements: Impressionism, Renaissance, Baroque, Cubism,")
-    print(f"             Surrealism, Abstract, Pop Art, Ukiyo-e + 12 more")
+    print("  Movements: Impressionism, Renaissance, Baroque, Cubism,")
+    print("             Surrealism, Abstract, Pop Art, Ukiyo-e + 12 more")
     print(f"  Delay: {BASE_DELAY}s between requests  |  Up to {MAX_RETRIES} retries")
     print(f"{'='*64}\n")
 
@@ -894,11 +894,11 @@ def main() -> None:
             time.sleep(BASE_DELAY)
 
     print(f"\n{'='*64}")
-    print(f"  Seeding complete!")
+    print("  Seeding complete!")
     print(f"  Success : {success_count}/{total}")
     print(f"  Failed  : {len(failed_titles)}/{total}")
     if failed_titles:
-        print(f"\n  Failed artworks:")
+        print("\n  Failed artworks:")
         for t in failed_titles:
             print(f"    - {t}")
     print(f"{'='*64}\n")

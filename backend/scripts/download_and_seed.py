@@ -1,5 +1,4 @@
 # backend/scripts/download_and_seed.py
-# -*- coding: utf-8 -*-
 r"""
 Production seed script for RGStudio.
 
@@ -11,7 +10,11 @@ Usage:
     cd backend
     python -m scripts.download_and_seed
 """
-import sys, io, os, re, time, json, hashlib
+import io
+import json
+import re
+import sys
+import time
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -31,9 +34,12 @@ DATASET_DIR.mkdir(exist_ok=True)
 sys.path.insert(0, str(BACKEND_DIR))
 
 from rag.embeddings.clip_encoder import encode_image_from_file
-from rag.vectorstore.qdrant_client import ensure_collection_exists, recreate_collection, upsert_artwork
 from rag.schemas.models import ArtworkMetadata
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import (
+    recreate_collection,
+    upsert_artwork,
+)
 
 logger = get_logger(__name__)
 
@@ -726,7 +732,7 @@ def process_artwork(art: dict, index: int, total: int) -> bool:
             if search_url and download_image(search_url, local_path):
                 logger.info(f"Downloaded via Commons Search API for {art['title']}")
             else:
-                print(f"         [FAIL] Could not download image")
+                print("         [FAIL] Could not download image")
                 return False
 
     # 2. CLIP-embed the local file
@@ -769,7 +775,7 @@ def main():
     failed = []
 
     print(f"\n{'='*64}")
-    print(f"  RGStudio - Local-First Art Dataset Seeder")
+    print("  RGStudio - Local-First Art Dataset Seeder")
     print(f"  {total} artworks -> art_dataset/ -> Qdrant")
     print(f"{'='*64}\n")
 
@@ -792,7 +798,7 @@ def main():
         for t in failed:
             print(f"    - {t}")
     print(f"\n  Dataset dir: {DATASET_DIR}")
-    print(f"  Serve via:   GET /images/<artist>/<title>.jpg")
+    print("  Serve via:   GET /images/<artist>/<title>.jpg")
     print(f"{'='*64}\n")
 
     # Save a manifest for reference

@@ -4,10 +4,12 @@
 # Extracts intermediate features at specific relu layers.
 # Pretrained on ImageNet — weights auto-downloaded (~80MB, cached).
 
-import torch
-import torch.nn as nn
-from torchvision.models import vgg19, VGG19_Weights
 from functools import lru_cache
+
+import torch
+from torch import nn
+from torchvision.models import VGG19_Weights, vgg19
+
 from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)

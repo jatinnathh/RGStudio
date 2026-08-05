@@ -1,10 +1,9 @@
 # backend/rag/ingestion/ingestor.py
 
-from rag.schemas.models import IngestRequest, IngestResponse, ArtworkMetadata
 from rag.embeddings.clip_encoder import encode_image_from_url
-from rag.ingestion.captioner import caption_from_url
-from rag.vectorstore.qdrant_client import upsert_artwork
+from rag.schemas.models import ArtworkMetadata, IngestRequest, IngestResponse
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import upsert_artwork
 
 logger = get_logger(__name__)
 

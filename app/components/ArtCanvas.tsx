@@ -160,7 +160,9 @@ export default function ArtCanvas() {
   const router = useRouter();
 
   useEffect(() => {
-    setMounted(true);
+    requestAnimationFrame(() => {
+      setMounted(true);
+    });
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -278,7 +280,7 @@ export default function ArtCanvas() {
         <PopButton onClick={() => { router.push("/home") }}>Continue to Dashboard</PopButton>
       </div>
     </div>
-  ); ``
+  );
 }
 
 useGLTF.preload("/art.glb");

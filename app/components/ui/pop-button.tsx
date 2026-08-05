@@ -1,7 +1,7 @@
 
 import React from "react";
 
-export interface PopButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export type PopButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export function PopButton({ className, children = "Learn More", ...props }: PopButtonProps) {
   return (

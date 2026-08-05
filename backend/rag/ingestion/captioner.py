@@ -1,11 +1,12 @@
 # backend/rag/ingestion/captioner.py
 
-import requests
-from io import BytesIO
-from PIL import Image
 from functools import lru_cache
-from transformers import Blip2Processor, Blip2ForConditionalGeneration
+from io import BytesIO
+
+import requests
 import torch
+from PIL import Image
+from transformers import Blip2ForConditionalGeneration, Blip2Processor
 
 from rag.config import get_settings
 from rag.utils.logger import get_logger

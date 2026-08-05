@@ -6,12 +6,12 @@
 # Uses the existing ingestion pipeline (CLIP embed -> Qdrant upsert).
 # Includes retry logic with exponential backoff for rate-limited requests.
 
-import sys
 import time
+
 from rag.ingestion.ingestor import ingest_artwork
 from rag.schemas.models import IngestRequest
-from rag.vectorstore.qdrant_client import ensure_collection_exists
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import ensure_collection_exists
 
 logger = get_logger(__name__)
 
@@ -268,9 +268,6 @@ RETRY_BACKOFF = [5, 10, 20]  # seconds to wait on 1st, 2nd, 3rd retry
 
 def ingest_with_retry(art: dict, index: int, total: int) -> bool:
     """Attempt to ingest an artwork with retry on failure."""
-    title = art["title"]
-    artist = art["artist"]
-
     for attempt in range(MAX_RETRIES + 1):
         try:
             if attempt > 0:
@@ -327,7 +324,7 @@ def main():
         time.sleep(BASE_DELAY)
 
     print(f"\n{'='*60}")
-    print(f"  Seeding complete!")
+    print("  Seeding complete!")
     print(f"  Success: {success}/{total}")
     print(f"  Failed:  {failed}/{total}")
     if skipped_titles:

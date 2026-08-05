@@ -1,18 +1,19 @@
 # backend/seed_retry_failed.py
-# -*- coding: utf-8 -*-
 """
 Retry seeding only the artworks that failed in the initial run.
 Uses the updated Wikimedia API resolver in clip_encoder.py.
 """
-import sys, io
+import sys
+
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 import time
+
 from rag.ingestion.ingestor import ingest_artwork
 from rag.schemas.models import IngestRequest
-from rag.vectorstore.qdrant_client import ensure_collection_exists
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import ensure_collection_exists
 
 logger = get_logger(__name__)
 

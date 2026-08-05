@@ -1,7 +1,8 @@
 # backend/gan/config.py
 
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+
+from pydantic_settings import BaseSettings
 
 
 class GANSettings(BaseSettings):
@@ -24,6 +25,6 @@ class GANSettings(BaseSettings):
         extra = "ignore"
 
 
-@lru_cache()
+@lru_cache
 def get_gan_settings() -> GANSettings:
     return GANSettings()

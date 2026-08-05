@@ -1,17 +1,17 @@
 # backend/rag/vectorstore/qdrant_client.py
 
+from functools import lru_cache
 from uuid import UUID
+
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
     Distance,
-    VectorParams,
-    PointStruct,
-    Filter,
     FieldCondition,
+    Filter,
     MatchValue,
-    
+    PointStruct,
+    VectorParams,
 )
-from functools import lru_cache
 
 from rag.config import get_settings
 from rag.utils.logger import get_logger

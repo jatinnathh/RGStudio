@@ -6,9 +6,11 @@
 # Architecture: Nearest-neighbor upsampling + reflection padding + conv layers.
 # This avoids checkerboard artifacts that plague transposed convolutions.
 
-import torch
-import torch.nn as nn
 from functools import lru_cache
+
+import torch
+from torch import nn
+
 from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -98,6 +100,7 @@ def get_decoder(device: str = "cpu") -> AdaINDecoder:
     Attempts to load pretrained weights from local cache or official release.
     """
     from pathlib import Path
+
     import requests
 
     decoder = AdaINDecoder()

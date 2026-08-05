@@ -2,11 +2,26 @@
 
 from contextlib import asynccontextmanager
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from rag.config import get_settings
+from rag.ingestion.ingestor import ingest_artwork
+from rag.pipeline import run_rag_pipeline
+from rag.retrieval.retriever import retrieve_artworks
+from rag.schemas.models import (
+    GenerateRequest,
+    GenerateResponse,
+    IngestRequest,
+    IngestResponse,
+    PipelineContext,
+    PipelineRequest,
+    RetrievalRequest,
+    RetrievalResponse,
+    StyleTransferResponse,
+)
 from rag.utils.logger import get_logger
 from rag.vectorstore.qdrant_client import (
     ensure_collection_exists,
@@ -14,16 +29,6 @@ from rag.vectorstore.qdrant_client import (
     get_unique_styles,
     scroll_all_artworks,
 )
-from rag.schemas.models import (
-    IngestRequest, IngestResponse,
-    RetrievalRequest, RetrievalResponse,
-    PipelineRequest, PipelineContext,
-    GenerateRequest, GenerateResponse,
-    StyleTransferResponse,
-)
-from rag.ingestion.ingestor import ingest_artwork
-from rag.retrieval.retriever import retrieve_artworks
-from rag.pipeline import run_rag_pipeline
 
 settings = get_settings()
 logger = get_logger(__name__)
@@ -78,7 +83,7 @@ def qdrant_health():
         info = get_collection_info()
         return {"status": "ok", "collection": info}
     except Exception as e:
-        raise HTTPException(status_code=503, detail=f"Qdrant unreachable: {str(e)}")
+        raise HTTPException(status_code=503, detail=f"Qdrant unreachable: {e!s}")
 
 
 # ── Gallery & Styles ──────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 # backend/rag/pipeline.py
 
-from rag.schemas.models import PipelineRequest, PipelineContext, RetrievalRequest
 from rag.retrieval.retriever import retrieve_artworks
+from rag.schemas.models import PipelineContext, PipelineRequest, RetrievalRequest
 from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)

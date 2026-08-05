@@ -1,12 +1,12 @@
 # backend/rag/embeddings/clip_encoder.py
 
-import clip
-import torch
-import numpy as np
-from PIL import Image
-import requests
-from io import BytesIO
 from functools import lru_cache
+from io import BytesIO
+
+import clip
+import requests
+import torch
+from PIL import Image
 
 from rag.config import get_settings
 from rag.utils.logger import get_logger

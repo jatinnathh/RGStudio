@@ -7,14 +7,13 @@
 #
 # Reuses rag.embeddings.clip_encoder — no duplicate model loading.
 
-import torch
 import clip
-import numpy as np
+import torch
 from PIL import Image
 
-from rag.embeddings.clip_encoder import _load_model, encode_text
-from rag.utils.logger import get_logger
+from rag.embeddings.clip_encoder import _load_model
 from rag.schemas.models import RetrievedArtwork
+from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -39,9 +38,6 @@ def rank_references_by_query(
     """
     if not artworks:
         return []
-
-    # Encode the query text
-    text_embedding = np.array(encode_text(query), dtype=np.float32)
 
     scored = []
     for artwork in artworks:

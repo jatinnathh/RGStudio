@@ -17,8 +17,8 @@ import torch
 from PIL import Image
 
 from gan.config import get_gan_settings
-from gan.models.vgg_encoder import get_encoder
 from gan.models.decoder import get_decoder
+from gan.models.vgg_encoder import get_encoder
 from gan.utils import pil_to_tensor, tensor_to_pil
 from rag.utils.logger import get_logger
 

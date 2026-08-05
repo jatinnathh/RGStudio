@@ -3,15 +3,17 @@
 # Image utility functions for the GAN generation module.
 # Handles: URL downloading, PIL ↔ tensor conversion, base64 encoding, temp files.
 
+import base64
 import io
 import os
-import base64
-import torch
+
 import requests
+import torch
 from PIL import Image
 from torchvision import transforms
-from rag.utils.logger import get_logger
+
 from gan.config import get_gan_settings
+from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)
 settings = get_gan_settings()

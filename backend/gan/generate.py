@@ -15,14 +15,15 @@
 
 import time
 from dataclasses import dataclass
+
 from PIL import Image
 
-from gan.config import get_gan_settings
 from gan.clip_ranker import pick_best_reference, score_output
-from gan.style_transfer import style_transfer, multi_style_transfer
+from gan.config import get_gan_settings
+from gan.style_transfer import multi_style_transfer, style_transfer
 from gan.utils import load_image_from_url, pil_to_base64
 from rag.pipeline import run_rag_pipeline
-from rag.schemas.models import PipelineRequest, PipelineContext, RetrievedArtwork
+from rag.schemas.models import PipelineRequest, RetrievedArtwork
 from rag.utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -137,7 +138,7 @@ def text_to_art(
             clip_score=0.0,
             generation_time_ms=elapsed,
             query=query,
-            message=f"Generation failed: {str(e)}",
+            message=f"Generation failed: {e!s}",
         )
 
     # Step 4 — Score output
@@ -233,7 +234,7 @@ def style_transfer_from_upload(
             clip_score=0.0,
             generation_time_ms=elapsed,
             query=style_query,
-            message=f"Could not download style reference: {str(e)}",
+            message=f"Could not download style reference: {e!s}",
         )
 
     # Step 4 — Apply style transfer
@@ -251,7 +252,7 @@ def style_transfer_from_upload(
             clip_score=0.0,
             generation_time_ms=elapsed,
             query=style_query,
-            message=f"Style transfer failed: {str(e)}",
+            message=f"Style transfer failed: {e!s}",
         )
 
     # Step 5 — Score output
@@ -292,7 +293,7 @@ def _create_content_seed(
     the reference image — this gives the output organic structure while
     letting the style dominate.
     """
-    from PIL import ImageFilter, ImageEnhance
+    from PIL import ImageEnhance, ImageFilter
 
     # Start from the reference image, resized
     seed = reference_image.copy()

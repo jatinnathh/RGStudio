@@ -1,9 +1,8 @@
 # backend/rag/schemas/models.py
 
-from pydantic import BaseModel, Field
-from typing import Optional
 from uuid import UUID, uuid4
 
+from pydantic import BaseModel, Field
 
 # ── Ingestion ──────────────────────────────────────────────────────────────
 
@@ -13,7 +12,7 @@ class ArtworkMetadata(BaseModel):
     title: str
     artist: str
     style: str                          # e.g. "Impressionism", "Surrealism"
-    year: Optional[int] = None
+    year: int | None = None
     caption: str                        # BLIP-2 generated
     image_url: str                      # Cloudflare R2 URL
     tags: list[str] = []
@@ -24,7 +23,7 @@ class IngestRequest(BaseModel):
     title: str
     artist: str
     style: str
-    year: Optional[int] = None
+    year: int | None = None
     tags: list[str] = []
 
 
@@ -39,7 +38,7 @@ class IngestResponse(BaseModel):
 class RetrievalRequest(BaseModel):
     query: str = Field(..., min_length=3, max_length=500,
                        description="Natural language art style description")
-    top_k: Optional[int] = Field(default=None, ge=1, le=20)
+    top_k: int | None = Field(default=None, ge=1, le=20)
 
 
 class RetrievedArtwork(BaseModel):
@@ -48,7 +47,7 @@ class RetrievedArtwork(BaseModel):
     title: str
     artist: str
     style: str
-    year: Optional[int]
+    year: int | None
     caption: str
     image_url: str
     tags: list[str]
@@ -64,7 +63,7 @@ class RetrievalResponse(BaseModel):
 
 class PipelineRequest(BaseModel):
     query: str = Field(..., min_length=3, max_length=500)
-    top_k: Optional[int] = 5
+    top_k: int | None = 5
 
 
 class PipelineContext(BaseModel):
@@ -95,7 +94,7 @@ class GenerateResponse(BaseModel):
     """Response body for art generation."""
     success: bool
     image_base64: str                    # base64-encoded JPEG
-    style_reference: Optional[RetrievedArtwork] = None  # which artwork was used
+    style_reference: RetrievedArtwork | None = None  # which artwork was used
     clip_score: float = 0.0              # CLIP similarity score
     generation_time_ms: int
     query: str
@@ -106,7 +105,7 @@ class StyleTransferResponse(BaseModel):
     """Response body for style transfer (image upload)."""
     success: bool
     image_base64: str                    # base64-encoded JPEG
-    style_reference: Optional[RetrievedArtwork] = None
+    style_reference: RetrievedArtwork | None = None
     clip_score: float = 0.0
     generation_time_ms: int
     style_query: str

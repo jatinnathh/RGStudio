@@ -1,14 +1,14 @@
 # backend/rag/retrieval/retriever.py
 
+from rag.config import get_settings
+from rag.embeddings.clip_encoder import encode_text
 from rag.schemas.models import (
     RetrievalRequest,
     RetrievalResponse,
     RetrievedArtwork,
 )
-from rag.embeddings.clip_encoder import encode_text
-from rag.vectorstore.qdrant_client import search_artworks
-from rag.config import get_settings
 from rag.utils.logger import get_logger
+from rag.vectorstore.qdrant_client import search_artworks
 
 settings = get_settings()
 logger = get_logger(__name__)
